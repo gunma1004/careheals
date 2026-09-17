@@ -54,13 +54,89 @@ all_regions = [
     {"sido": "incheon", "sido_name": "인천", "path": "geomdangu", "name": "검단구", "dongs": [{"name": "당하동", "path": "danghadong"}, {"name": "마전동", "path": "majeondong"}, {"name": "원당동", "path": "wondangdong"}, {"name": "아라동", "path": "aradong"}]}
 ]
 
-# 제휴 업체 5개 데이터 (id 추가)
+# 제휴 업체별 상세 코스 및 가격 정보 데이터 정의
 shops = [
-    { "id": "shop1", "name": "🔥 한국미인홈케어", "desc": "신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", "phone": "0507-1280-3303", "price": "100,000원부터~" },
-    { "id": "shop2", "name": "✨ 오늘밤테라피", "desc": "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피", "phone": "0507-1280-3223", "price": "60,000원부터~" },
-    { "id": "shop3", "name": "💎 주주테라피", "desc": "재방문율 1위! 칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", "phone": "0507-1280-3193", "price": "60,000원부터~" },
-    { "id": "shop4", "name": "🌟 퀸즈홈테라피", "desc": "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램 진행 중", "phone": "0507-1280-3334", "price": "60,000원부터~" },
-    { "id": "shop5", "name": "👑 골든테라피", "desc": "선입금 없는 100% 후불제! 수도권 전지역 평균 25분 내 실시간 도착", "phone": "0507-1280-3360", "price": "110,000원부터~" }
+    { 
+        "id": "shop1", "name": "🔥 한국미인테라피", "phone": "0507-1280-3303", 
+        "courses": [
+            ("아로디시 90분", "100,000원"),
+            ("아로디시 120분", "130,000원"),
+            ("VIP스웨디시 60분", "110,000원"),
+            ("VIP스웨디시 90분", "130,000원"),
+            ("VIP스웨디시 120분", "150,000원"),
+            ("한국인스웨디시 60분", "140,000원"),
+            ("한국인스웨디시 90분", "180,000원")
+        ]
+    },
+    { 
+        "id": "shop2", "name": "✨ 오늘밤테라피", "phone": "0507-1280-3223", 
+        "courses": [
+            ("타이코스 60분", "60,000원"),
+            ("타이코스 90분", "80,000원"),
+            ("타이코스 120분", "100,000원"),
+            ("전신아로마 60분", "70,000원"),
+            ("전신아로마 90분", "90,000원"),
+            ("전신아로마 120분", "110,000원"),
+            ("VIP 감성힐링코스 ★추천 60분", "90,000원"),
+            ("VIP 감성힐링코스 ★추천 90분", "110,000원"),
+            ("VIP 감성힐링코스 ★추천 120분", "130,000원"),
+            ("VIP 스페셜코스 ★추천 60분", "100,000원"),
+            ("VIP 스페셜코스 ★추천 90분", "120,000원"),
+            ("VIP 스페셜코스 ★추천 120분", "140,000원"),
+            ("VIP 프리미엄 코스 (타이&아로마&풋) 150분", "160,000원"),
+            ("한국인스웨디시 60분", "140,000원"),
+            ("한국인스웨디시 90분", "180,000원")
+        ]
+    },
+    { 
+        "id": "shop3", "name": "💎 주주테라피", "phone": "0507-1280-3193", 
+        "courses": [
+            ("타이코스 60분", "60,000원"),
+            ("타이코스 90분", "80,000원"),
+            ("타이코스 120분", "100,000원"),
+            ("전신아로마 60분", "70,000원"),
+            ("전신아로마 90분", "90,000원"),
+            ("전신아로마 120분", "110,000원"),
+            ("VIP 감성힐링코스 ★추천 60분", "90,000원"),
+            ("VIP 감성힐링코스 ★추천 90분", "110,000원"),
+            ("VIP 감성힐링코스 ★추천 120분", "130,000원"),
+            ("VIP 스페셜코스 ★추천 60분", "100,000원"),
+            ("VIP 스페셜코스 ★추천 90분", "120,000원"),
+            ("VIP 스페셜코스 ★추천 120분", "140,000원"),
+            ("VIP 프리미엄 코스 (타이&아로마&풋) 150분", "160,000원"),
+            ("한국인스웨디시 60분", "140,000원"),
+            ("한국인스웨디시 90분", "180,000원")
+        ]
+    },
+    { 
+        "id": "shop4", "name": "🌟 퀸즈홈테라피", "phone": "0507-1280-3334", 
+        "courses": [
+            ("건식 힐링 코스 60분", "60,000원"),
+            ("건식 힐링 코스 90분", "80,000원"),
+            ("건식 힐링 코스 120분", "100,000원"),
+            ("아로마 힐링 코스 60분", "70,000원"),
+            ("아로마 힐링 코스 90분", "80,000원"),
+            ("아로마 힐링 코스 120분", "100,000원"),
+            ("힐링스웨디시 코스 60분", "80,000원"),
+            ("힐링스웨디시 코스 90분", "100,000원"),
+            ("힐링스웨디시 코스 120분", "120,000원"),
+            ("VIP스페셜코스 60분", "100,000원"),
+            ("VIP스페셜코스 90분", "120,000원"),
+            ("VIP스페셜코스 120분", "150,000원"),
+            ("한국 관리사 코스 60분", "150,000원"),
+            ("한국 관리사 코스 90분", "180,000원")
+        ]
+    },
+    { 
+        "id": "shop5", "name": "👑 한국골든테라피", "phone": "0507-1280-3360", 
+        "courses": [
+            ("스웨디시 코스 60분", "140,000원"),
+            ("스웨디시 코스 90분", "190,000원"),
+            ("프리미엄 코스 60분", "110,000원"),
+            ("프리미엄 코스 90분", "130,000원"),
+            ("프리미엄 코스 120분", "150,000원")
+        ]
+    }
 ]
 
 page_template = """<!doctype html>
@@ -93,7 +169,6 @@ a{{color:inherit;text-decoration:none}}
 .ch-shop-name a{{font-size:17px;font-weight:800;color:var(--txt);text-decoration:none}}
 .ch-shop-name a:hover{{color:var(--p);text-decoration:underline}}
 .ch-shop-desc{{font-size:13px;color:var(--muted);margin-bottom:10px}}
-.ch-shop-price{{font-size:15px;font-weight:800;color:var(--p)}}
 .ch-btn-group{{display:flex;gap:8px;align-items:center}}
 .ch-detail-btn{{background:#f3e2e6;color:var(--p);padding:10px 14px;border-radius:6px;font-weight:700;font-size:13px}}
 .ch-call{{background:var(--p);color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;font-size:13px;white-space:nowrap}}
@@ -135,13 +210,12 @@ a{{color:inherit;text-decoration:none}}
 </html>
 """
 
-# 개별 샵 상세 페이지 템플릿
 shop_template = """<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{shop_name} | {location_name} 마사지 | 케어힐즈</title>
+<title>{shop_name} | {location_name} 출장 마사지 | 케어힐즈</title>
 <style>
 :root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;}}
 *{{box-sizing:border-box;margin:0;padding:0}}
@@ -152,9 +226,12 @@ a{{color:inherit;text-decoration:none}}
 .ch-tel{{background:var(--p);color:#fff;padding:8px 18px;border-radius:6px;font-weight:700;font-size:14px}}
 .ch-sec{{padding:44px 20px}}
 .ch-sec-inner{{max-width:700px;margin:0 auto;background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:24px}}
-.ch-title{{font-size:22px;font-weight:800;color:var(--p);margin-bottom:10px}}
-.ch-desc{{font-size:14px;color:var(--muted);margin-bottom:16px}}
-.ch-price{{font-size:18px;font-weight:800;color:var(--p);margin-bottom:20px}}
+.ch-title{{font-size:22px;font-weight:800;color:var(--p);margin-bottom:6px}}
+.ch-sub{{font-size:13px;color:var(--muted);margin-bottom:20px}}
+.ch-table{{width:100%;border-collapse:collapse;margin-bottom:24px}}
+.ch-table th, .ch-table td{{padding:12px;border-bottom:1px solid var(--bdr);text-align:left;font-size:14px}}
+.ch-table th{{color:var(--p);font-weight:700;background:#fff5f7}}
+.ch-table td:last-child{{text-align:right;font-weight:800;color:var(--p)}}
 .ch-call-btn{{display:block;background:var(--p);color:#fff;text-align:center;padding:14px;border-radius:8px;font-weight:800;font-size:16px}}
 </style>
 </head>
@@ -166,9 +243,21 @@ a{{color:inherit;text-decoration:none}}
 <section class="ch-sec">
   <div class="ch-sec-inner">
     <h1 class="ch-title">{shop_name}</h1>
-    <p class="ch-desc">{shop_desc}</p>
-    <div class="ch-price">이용 요금: {shop_price}</div>
-    <a href="tel:{shop_phone}" class="ch-call-btn">📞 전화로 빠른 예약하기</a>
+    <p class="ch-sub">📍 서비스 지역: {location_name} 전 지역 (100% 후불제)</p>
+    
+    <table class="ch-table">
+      <thead>
+        <tr>
+          <th>관리 코스 및 프로그램</th>
+          <th>이용 요금</th>
+        </tr>
+      </thead>
+      <tbody>
+        {course_rows}
+      </tbody>
+    </table>
+
+    <a href="tel:{shop_phone}" class="ch-call-btn">📞 전화로 빠른 예약하기 ({shop_phone})</a>
   </div>
 </section>
 </body>
@@ -192,18 +281,17 @@ for reg in all_regions:
     dir_path = f"{sido_path}/{gu_path}"
     os.makedirs(dir_path, exist_ok=True)
     
-    # 1. 구 허브 페이지 생성 (상대 경로 기준 샵 링크: ./shop1/)
+    # 1. 구 허브 페이지 내 샵 리스트 (상대 경로: ./shop1/)
     shop_items_main = ""
     for shop in shops:
         shop_items_main += f"""
         <div class="ch-shop">
           <div>
             <div class="ch-shop-name"><a href="./{shop['id']}/">{shop["name"]}</a></div>
-            <div class="ch-shop-desc">{shop["desc"]}</div>
-            <div class="ch-shop-price">이용요금: {shop["price"]}</div>
+            <div class="ch-shop-desc">선입금 없는 100% 후불제 맞춤 방문 힐링 케어</div>
           </div>
           <div class="ch-btn-group">
-            <a href="./{shop['id']}/" class="ch-detail-btn">상세보기</a>
+            <a href="./{shop['id']}/" class="ch-detail-btn">상세보기 및 가격</a>
             <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
           </div>
         </div>
@@ -220,18 +308,23 @@ for reg in all_regions:
         ))
     sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/")
 
-    # 구 허브 하위에 샵 상세 페이지 생성
+    # 2. 구 폴더 하위에 각 샵 상세 페이지(가격표 포함) 생성
     for shop in shops:
         shop_dir = f"{dir_path}/{shop['id']}"
         os.makedirs(shop_dir, exist_ok=True)
+        
+        course_rows = ""
+        for course, price in shop["courses"]:
+            course_rows += f"<tr><td>{course}</td><td>{price}</td></tr>\n"
+            
         with open(f"{shop_dir}/index.html", "w", encoding="utf-8") as f:
             f.write(shop_template.format(
-                shop_name=shop["name"], shop_desc=shop["desc"], shop_price=shop["price"], shop_phone=shop["phone"],
-                location_name=gu_name
+                shop_name=shop["name"], shop_phone=shop["phone"],
+                location_name=gu_name, course_rows=course_rows
             ))
         sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/{shop['id']}/")
 
-    # 2. 각 동별 페이지 생성 (하위 경로 기준 샵 링크: ../shop1/)
+    # 3. 각 동별 페이지 생성 (하위 폴더 내부에서 구 하위의 샵으로 연결: ../shop1/)
     for dong in reg["dongs"]:
         dong_dir = f"{dir_path}/{dong['path']}"
         os.makedirs(dong_dir, exist_ok=True)
@@ -244,11 +337,10 @@ for reg in all_regions:
             <div class="ch-shop">
               <div>
                 <div class="ch-shop-name"><a href="../{shop['id']}/">{shop["name"]}</a></div>
-                <div class="ch-shop-desc">{shop["desc"]}</div>
-                <div class="ch-shop-price">이용요금: {shop["price"]}</div>
+                <div class="ch-shop-desc">선입금 없는 100% 후불제 맞춤 방문 힐링 케어</div>
               </div>
               <div class="ch-btn-group">
-                <a href="../{shop['id']}/" class="ch-detail-btn">상세보기</a>
+                <a href="../{shop['id']}/" class="ch-detail-btn">상세보기 및 가격</a>
                 <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
               </div>
             </div>
@@ -257,7 +349,7 @@ for reg in all_regions:
         dong_file = f"{dong_dir}/index.html"
         with open(dong_file, "w", encoding="utf-8") as f:
             f.write(page_template.format(
-                page_title=f"{gu_name} {dong['name']} 마사지·홈케어",
+                page_title=f"{gu_name} {dong['name']} 출장 마사지·홈타이",
                 sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong=f"› {dong['name']}",
                 dong_badges=dong_badges_sub, shop_items=shop_items_sub
             ))
@@ -275,4 +367,4 @@ sitemap_content += '</urlset>'
 with open("sitemap.xml", "w", encoding="utf-8") as f:
     f.write(sitemap_content)
 
-print(f"✨ 총 {count}개의 구와 모든 하위 동 페이지, 샵 상세 페이지 및 사이트맵이 완벽하게 생성되었습니다!")
+print(f"✨ 총 {count}개의 구와 모든 하위 동 페이지, 그리고 각 샵별 맞춤 코스 가격표가 담긴 상세 페이지가 완벽하게 생성되었습니다!")
