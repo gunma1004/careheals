@@ -91,7 +91,7 @@ shops = [
         "courses": [
             ("건식 힐링 코스 60분", "60,000원"), ("건식 힐링 코스 90분", "80,000원"), ("건식 힐링 코스 120분", "100,000원"),
             ("아로마 힐링 코스 60분", "70,000원"), ("아로마 힐링 코스 90분", "80,000원"), ("아로마 힐링 코스 120분", "100,000원"),
-            ("힐링스웨디시 코스 60분", "80,000원"), ("힐링스웨디시 코스 90분", "100,000원"), ("힐링스웨디시 코스 120분", "120,000원"),
+            ("힐링스웨디시 코스 60분", "80,000원"), ("힐링스웨디시 코s 90분", "100,000원"), ("힐링스웨디시 코스 120분", "120,000원"),
             ("VIP스페셜코스 60분", "100,000원"), ("VIP스페셜코스 90분", "120,000원"), ("VIP스페셜코스 120분", "150,000원"),
             ("한국 관리사 코스 60분", "150,000원"), ("한국 관리사 코스 90분", "180,000원")
         ]
@@ -182,6 +182,7 @@ a{{color:inherit;text-decoration:none}}
 </html>
 """
 
+# 샵 상세 페이지 템플릿 ([지역명] 출장 아로마 마사지 [샵이름] 형식 적용)
 shop_template = """<!doctype html>
 <html lang="ko">
 <head>
@@ -192,7 +193,7 @@ shop_template = """<!doctype html>
 <meta property="og:type" content="website">
 <meta property="og:url" content="{shop_url}">
 <meta property="og:title" content="{location_name} 출장 아로마 마사지 {shop_name} | 케어힐즈">
-<meta property="og:description" content="{location_name} 출장 아로마 마사지 제휴업체 {shop_name} 안내. 선입금 없는 100% 후불제 홈케어 코스 및 가격표 정보.">
+<meta property="og:description" content="{location_name} 출장 아로마 마사지 {shop_name} 제휴 안내. 선입금 없는 100% 후불제 홈케어 코스 및 가격표 정보.">
 <meta property="og:locale" content="ko_KR">
 <style>
 :root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;}}
@@ -339,7 +340,7 @@ for reg in all_regions:
             """
             
         dong_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/"
-        dong_title = f"{gu_name} {dong['name']} 마사지·홈케어 안내"
+        dong_title = f"{gu_name} {dong['name']} 마사지·홈타이 안내"
         dong_desc = f"{sido_name} {gu_name} {dong['name']} 전 지역 맞춤형 방문 홈케어 및 마사지 제휴 업체 정보 안내. 100% 후불제."
         
         dong_file = f"{dong_dir}/index.html"
@@ -365,4 +366,4 @@ sitemap_content += '</urlset>'
 with open("sitemap.xml", "w", encoding="utf-8") as f:
     f.write(sitemap_content)
 
-print(f"✨ 모든 구·동·샵 페이지가 성공적으로 빌드되었습니다!")
+print(f"✨ 샵 상세 페이지 타이틀이 '[지역명] 출장 아로마 마사지 [샵이름]' 형식으로 완벽하게 적용되었습니다!")
