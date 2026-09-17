@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>수도권 프리미엄 방문 홈케어·릴렉싱 서비스 | 케어힐즈</title>
+  <meta name="description" content="서울, 경기, 인천 수도권 지역별 프리미엄 방문 홈케어 및 릴렉싱 케어 제휴 업체 정보 안내 플랫폼.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://careheals.netlify.app/">
+  <style>
+    :root{--p:#9c3854;--p-dark:#7a2941;--a:#e07a93;--bg:#fff8f9;--bg2:#fff;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;--shadow:0 2px 12px rgba(156,56,84,.08);}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--txt);font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;line-height:1.6;padding-bottom:80px}
+    a{color:inherit;text-decoration:none}
+    
+    /* 헤더 */
+    .ch-hd{background:#fff;border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+    .ch-hd-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;padding:0 20px}
+    .ch-logo{display:flex;align-items:center;gap:10px}
+    .ch-logo-mark{width:38px;height:38px;background:var(--p);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px}
+    .ch-logo-text{font-size:16px;font-weight:800;color:var(--p)}
+    .ch-logo-sub{font-size:10px;color:var(--muted);font-weight:400}
+
+    /* 히어로 (분홍 그라데이션) */
+    .ch-hero{background:linear-gradient(150deg,#7a2941 0%,#9c3854 45%,#b8526f 100%);padding:56px 20px 48px;text-align:center;color:#fff}
+    .ch-hero-badge{display:inline-block;background:#fff;color:var(--p);font-size:11px;font-weight:800;padding:5px 16px;border-radius:4px;margin-bottom:22px;letter-spacing:.8px}
+    .ch-hero h1{font-size:clamp(26px,4.5vw,44px);font-weight:900;line-height:1.2;margin-bottom:14px}
+    .ch-hero h1 em{color:#ffd1dc;font-style:normal}
+    .ch-hero-sub{color:rgba(255,255,255,.8);font-size:15px;margin-bottom:36px}
+    
+    .ch-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:540px;margin:0 auto 36px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:20px}
+    .ch-stat b{display:block;font-size:24px;font-weight:900;color:#ffd1dc;margin-bottom:4px}
+    .ch-stat span{font-size:12px;color:rgba(255,255,255,.7)}
+
+    /* 섹션 공통 */
+    .ch-sec{padding:44px 20px}
+    .ch-sec-inner{max-width:1100px;margin:0 auto}
+    .ch-sec h2{font-size:20px;font-weight:800;color:var(--p);margin-bottom:22px;position:relative}
+    .ch-sec h2::after{content:'';display:block;width:32px;height:3px;background:var(--a);margin-top:6px;border-radius:2px}
+
+    /* 지역 카드 그리드 */
+    .ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+    .ch-card{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:24px;transition:all .15s;display:block}
+    .ch-card:hover{border-color:var(--p);box-shadow:var(--shadow);transform:translateY(-2px)}
+    .ch-card h3{font-size:18px;font-weight:800;color:var(--txt);margin-bottom:8px}
+    .ch-card p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+    .ch-card-link{font-size:14px;font-weight:700;color:var(--p)}
+
+    /* 이용 방법 4단계 */
+    .ch-guide-row{display:flex;gap:12px;flex-wrap:wrap}
+    .ch-guide-step{flex:1;min-width:200px;background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:20px;text-align:center}
+    .ch-guide-num{width:32px;height:32px;background:var(--p);color:#fff;border-radius:50%;font-weight:900;font-size:15px;line-height:32px;margin:0 auto 10px}
+    .ch-guide-step strong{display:block;font-size:15px;font-weight:800;color:var(--txt);margin-bottom:6px}
+    .ch-guide-step p{font-size:12px;color:var(--muted);line-height:1.5}
+
+    /* FAQ 아코디언 */
+    .ch-faq{display:flex;flex-direction:column;gap:10px}
+    .ch-faq details{border:1.5px solid var(--bdr);border-radius:8px;overflow:hidden;background:#fff}
+    .ch-faq summary{padding:16px;font-size:15px;font-weight:700;cursor:pointer;color:var(--txt);user-select:none;list-style:none}
+    .ch-faq summary::-webkit-details-marker{display:none}
+    .ch-faq summary::after{content:'＋';float:right;color:var(--p)}
+    .ch-faq details[open] summary::after{content:'－'}
+    .ch-faq details p{padding:0 16px 16px;font-size:14px;color:var(--muted);line-height:1.7}
+
+    /* 푸터 */
+    .ch-ft{background:#3d232b;color:#d4b5bc;padding:40px 20px;margin-top:40px;font-size:12px;line-height:1.8}
+    .ch-ft-inner{max-width:1100px;margin:0 auto}
+    .ch-ft b{color:#fff;font-size:14px;display:block;margin-bottom:6px}
+  </style>
+</head>
+<body>
+
+  <!-- 헤더 -->
+  <header class="ch-hd">
+    <div class="ch-hd-inner">
+      <a href="https://careheals.netlify.app/" class="ch-logo">
+        <div class="ch-logo-mark">CH</div>
+        <div><div class="ch-logo-text">케어힐즈</div><div class="ch-logo-sub">CAREHEALS</div></div>
+      </a>
+    </div>
+  </header>
+
+  <!-- 히어로 섹션 -->
+  <section class="ch-hero">
+    <div class="ch-hero-badge">수도권 프리미엄 홈케어 플랫폼</div>
+    <h1>지친 일상 속에서 누리는<br><em>품격 있는 힐링 타임</em></h1>
+    <p class="ch-hero-sub">서울 · 경기 · 인천 전 지역 맞춤형 방문 릴렉싱 케어 안내</p>
+    
+    <div class="ch-stat-row">
+      <div class="ch-stat"><b>3개</b><span>수도권 거점</span></div>
+      <div class="ch-stat"><b>30분</b><span>평균 방문</span></div>
+      <div class="ch-stat"><b>100%</b><span>후불제 케어</span></div>
+    </div>
+  </section>
+
+  <!-- 지역별 안내 바로가기 섹션 -->
+  <section class="ch-sec">
+    <div class="ch-sec-inner">
+      <h2>지역별 방문 홈케어 안내</h2>
+      <div class="ch-grid">
+        <a href="/seoul/" class="ch-card">
+          <h3>🏙️ 서울 지역 안내</h3>
+          <p>강남구, 마포구, 종로구 등 서울 25개 구 전 지역 맞춤 안내</p>
+          <div class="ch-card-link">서울 지역 보러가기 ›</div>
+        </a>
+        <a href="/gyeonggi/" class="ch-card">
+          <h3>🏡 경기 지역 안내</h3>
+          <p>수원, 성남, 고양, 용인 등 경기도 주요 시·군 방문 케어 정보</p>
+          <div class="ch-card-link">경기 지역 보러가기 ›</div>
+        </a>
+        <a href="/incheon/" class="ch-card">
+          <h3>⚓ 인천 지역 안내</h3>
+          <p>연수구, 서해구, 검단구 등 인천 최신 행정구역 맞춤 안내</p>
+          <div class="ch-card-link">인천 지역 보러가기 ›</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 이용 방법 4단계 섹션 -->
+  <section class="ch-sec" style="background:#fff">
+    <div class="ch-sec-inner">
+      <h2>방문 힐링 서비스 이용 방법 4단계</h2>
+      <div class="ch-guide-row">
+        <div class="ch-guide-step">
+          <div class="ch-guide-num">1</div>
+          <strong>지역 및 제휴처 선택</strong>
+          <p>원하시는 지역(구·동)을 선택하고 제휴된 전문 업체를 확인하세요.</p>
+        </div>
+        <div class="ch-guide-step">
+          <div class="ch-guide-num">2</div>
+          <strong>예약 및 일정 조율</strong>
+          <p>상세 페이지에 기재된 전용 연락처를 통해 방문 일정을 조율합니다.</p>
+        </div>
+        <div class="ch-guide-step">
+          <div class="ch-guide-num">3</div>
+          <strong>방문 및 맞춤 케어</strong>
+          <p>전문 관리사가 자택이나 숙소로 신속하게 방문하여 맞춤형 케어를 진행합니다.</p>
+        </div>
+        <div class="ch-guide-step">
+          <div class="ch-guide-num">4</div>
+          <strong>후불 결제 시스템</strong>
+          <p>모든 서비스가 안전하게 완료된 후 정직하게 후불 결제합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 자주 묻는 질문 (FAQ) 섹션 -->
+  <section class="ch-sec">
+    <div class="ch-sec-inner">
+      <h2>자주 묻는 질문 (FAQ)</h2>
+      <div class="ch-faq">
+        <details open>
+          <summary>예약은 어떻게 진행하나요?</summary>
+          <p>각 지역 및 제휴 업체 상세 페이지에 안내된 전용 연락처를 통해 간편하게 문의하실 수 있습니다.</p>
+        </details>
+        <details>
+          <summary>방문까지 소요되는 시간은 얼마나 되나요?</summary>
+          <p>예약 확정 후 해당 지역의 담당 관리사가 출발하여 평균 30~40분 이내에 신속하게 방문합니다.</p>
+        </details>
+        <details>
+          <summary>결제 방식과 선입금 여부가 궁금합니다.</summary>
+          <p>케어힐즈 제휴 업체들은 100% 투명한 후불제로 운영됩니다. 선입금이나 예약금이 전혀 발생하지 않습니다.</p>
+        </details>
+        <details>
+          <summary>주말이나 야간 시간대에도 동일하게 이용 가능한가요?</summary>
+          <p>네, 매일 야간 및 주말 시간대에도 동일한 조건과 정직한 요금으로 편리하게 이용하실 수 있습니다.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 푸터 -->
+  <footer class="ch-ft">
+    <div class="ch-ft-inner">
+      <b>케어힐즈 (CAREHEALS)</b>
+      <p>수도권 프리미엄 방문 홈케어 & 릴렉싱 정보 플랫폼</p>
+      <p>운영시간: 매일 19:00 ~ 익일 05:00</p>
+      <p style="margin-top:12px; color:#b08d95">© 2026 CAREHEALS. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
