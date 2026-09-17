@@ -54,13 +54,13 @@ all_regions = [
     {"sido": "incheon", "sido_name": "인천", "path": "geomdangu", "name": "검단구", "dongs": [{"name": "당하동", "path": "danghadong"}, {"name": "마전동", "path": "majeondong"}, {"name": "원당동", "path": "wondangdong"}, {"name": "아라동", "path": "aradong"}]}
 ]
 
-# 제휴 업체 5개 데이터
+# 제휴 업체 5개 데이터 (id 추가)
 shops = [
-    { "name": "🔥 한국미인홈케어", "desc": "신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", "phone": "0507-1280-3303", "price": "100,000원부터~" },
-    { "name": "✨ 오늘밤테라피", "desc": "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피", "phone": "0507-1280-3223", "price": "60,000원부터~" },
-    { "name": "💎 주주테라피", "desc": "재방문율 1위! 칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", "phone": "0507-1280-3193", "price": "60,000원부터~" },
-    { "name": "🌟 퀸즈홈테라피", "desc": "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램 진행 중", "phone": "0507-1280-3334", "price": "60,000원부터~" },
-    { "name": "👑 골든테라피", "desc": "선입금 없는 100% 후불제! 수도권 전지역 평균 25분 내 실시간 도착", "phone": "0507-1280-3360", "price": "110,000원부터~" }
+    { "id": "shop1", "name": "🔥 한국미인홈케어", "desc": "신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램", "phone": "0507-1280-3303", "price": "100,000원부터~" },
+    { "id": "shop2", "name": "✨ 오늘밤테라피", "desc": "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피", "phone": "0507-1280-3223", "price": "60,000원부터~" },
+    { "id": "shop3", "name": "💎 주주테라피", "desc": "재방문율 1위! 칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어", "phone": "0507-1280-3193", "price": "60,000원부터~" },
+    { "id": "shop4", "name": "🌟 퀸즈홈테라피", "desc": "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램 진행 중", "phone": "0507-1280-3334", "price": "60,000원부터~" },
+    { "id": "shop5", "name": "👑 골든테라피", "desc": "선입금 없는 100% 후불제! 수도권 전지역 평균 25분 내 실시간 도착", "phone": "0507-1280-3360", "price": "110,000원부터~" }
 ]
 
 page_template = """<!doctype html>
@@ -90,12 +90,15 @@ a{{color:inherit;text-decoration:none}}
 .ch-shop-list{{display:flex;flex-direction:column;gap:14px}}
 .ch-shop{{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:20px;display:flex;justify-content:space-between;align-items:center;transition:all .15s}}
 .ch-shop:hover{{border-color:var(--p);box-shadow:var(--shadow)}}
-.ch-shop-name{{font-size:17px;font-weight:800;color:var(--txt);margin-bottom:6px}}
+.ch-shop-name a{{font-size:17px;font-weight:800;color:var(--txt);text-decoration:none}}
+.ch-shop-name a:hover{{color:var(--p);text-decoration:underline}}
 .ch-shop-desc{{font-size:13px;color:var(--muted);margin-bottom:10px}}
 .ch-shop-price{{font-size:15px;font-weight:800;color:var(--p)}}
+.ch-btn-group{{display:flex;gap:8px;align-items:center}}
+.ch-detail-btn{{background:#f3e2e6;color:var(--p);padding:10px 14px;border-radius:6px;font-weight:700;font-size:13px}}
 .ch-call{{background:var(--p);color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;font-size:13px;white-space:nowrap}}
 .ch-ft{{background:#3d232b;color:#d4b5bc;padding:40px 20px;margin-top:40px;text-align:center;font-size:12px}}
-@media(max-width:768px){{.ch-shop{{flex-direction:column;align-items:flex-start;gap:12px}}.ch-call{{width:100%;text-align:center}}}}
+@media(max-width:768px){{.ch-shop{{flex-direction:column;align-items:flex-start;gap:12px}}.ch-btn-group{{width:100%;justify-content:space-between}}.ch-call{{flex:1;text-align:center}}}}
 </style>
 </head>
 <body>
@@ -132,6 +135,46 @@ a{{color:inherit;text-decoration:none}}
 </html>
 """
 
+# 개별 샵 상세 페이지 템플릿
+shop_template = """<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{shop_name} | {location_name} 마사지 | 케어힐즈</title>
+<style>
+:root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{background:var(--bg);color:var(--txt);font-family:'Pretendard',sans-serif;line-height:1.6;padding-bottom:80px}}
+a{{color:inherit;text-decoration:none}}
+.ch-hd{{background:#fff;border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}}
+.ch-logo{{font-size:16px;font-weight:800;color:var(--p)}}
+.ch-tel{{background:var(--p);color:#fff;padding:8px 18px;border-radius:6px;font-weight:700;font-size:14px}}
+.ch-sec{{padding:44px 20px}}
+.ch-sec-inner{{max-width:700px;margin:0 auto;background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:24px}}
+.ch-title{{font-size:22px;font-weight:800;color:var(--p);margin-bottom:10px}}
+.ch-desc{{font-size:14px;color:var(--muted);margin-bottom:16px}}
+.ch-price{{font-size:18px;font-weight:800;color:var(--p);margin-bottom:20px}}
+.ch-call-btn{{display:block;background:var(--p);color:#fff;text-align:center;padding:14px;border-radius:8px;font-weight:800;font-size:16px}}
+</style>
+</head>
+<body>
+<header class="ch-hd">
+  <a href="https://careheals.netlify.app/" class="ch-logo">케어힐즈 (CAREHEALS)</a>
+  <a href="tel:{shop_phone}" class="ch-tel">📞 {shop_phone}</a>
+</header>
+<section class="ch-sec">
+  <div class="ch-sec-inner">
+    <h1 class="ch-title">{shop_name}</h1>
+    <p class="ch-desc">{shop_desc}</p>
+    <div class="ch-price">이용 요금: {shop_price}</div>
+    <a href="tel:{shop_phone}" class="ch-call-btn">📞 전화로 빠른 예약하기</a>
+  </div>
+</section>
+</body>
+</html>
+"""
+
 sitemap_urls = [
     "https://careheals.netlify.app/",
     "https://careheals.netlify.app/seoul/",
@@ -149,61 +192,74 @@ for reg in all_regions:
     dir_path = f"{sido_path}/{gu_path}"
     os.makedirs(dir_path, exist_ok=True)
     
-    # 제휴 업체 목록 HTML 생성
-    shop_items = ""
+    # 1. 구 허브 페이지 생성 (상대 경로 기준 샵 링크: ./shop1/)
+    shop_items_main = ""
     for shop in shops:
-        shop_items += f"""
+        shop_items_main += f"""
         <div class="ch-shop">
           <div>
-            <div class="ch-shop-name">{shop["name"]}</div>
+            <div class="ch-shop-name"><a href="./{shop['id']}/">{shop["name"]}</a></div>
             <div class="ch-shop-desc">{shop["desc"]}</div>
             <div class="ch-shop-price">이용요금: {shop["price"]}</div>
           </div>
-          <div>
-            <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화 ({shop["phone"]})</a>
+          <div class="ch-btn-group">
+            <a href="./{shop['id']}/" class="ch-detail-btn">상세보기</a>
+            <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
           </div>
         </div>
         """
 
-    # 1. 구 허브 페이지 생성 (상대 경로 기준 뱃지 생성)
-    dong_badges_main = ""
-    for d in reg["dongs"]:
-        dong_badges_main += f'<a href="./{d["path"]}/" class="ch-dong-badge">{d["name"]}</a>'
+    dong_badges_main = "".join([f'<a href="./{d["path"]}/" class="ch-dong-badge">{d["name"]}</a>' for d in reg["dongs"]])
     
     main_file = f"{dir_path}/index.html"
     with open(main_file, "w", encoding="utf-8") as f:
         f.write(page_template.format(
             page_title=f"{gu_name} 출장 마사지·홈타이 안내",
-            sido_path=sido_path,
-            sido_name=sido_name,
-            gu_name=gu_name,
-            current_dong="",
-            dong_badges=dong_badges_main,
-            shop_items=shop_items
+            sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong="",
+            dong_badges=dong_badges_main, shop_items=shop_items_main
         ))
     sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/")
 
-    # 2. 각 동별 페이지 생성 (하위 폴더 내부에서 상위 구로 돌아가거나 다른 동으로 갈 수 있게 경로 조정)
+    # 구 허브 하위에 샵 상세 페이지 생성
+    for shop in shops:
+        shop_dir = f"{dir_path}/{shop['id']}"
+        os.makedirs(shop_dir, exist_ok=True)
+        with open(f"{shop_dir}/index.html", "w", encoding="utf-8") as f:
+            f.write(shop_template.format(
+                shop_name=shop["name"], shop_desc=shop["desc"], shop_price=shop["price"], shop_phone=shop["phone"],
+                location_name=gu_name
+            ))
+        sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/{shop['id']}/")
+
+    # 2. 각 동별 페이지 생성 (하위 경로 기준 샵 링크: ../shop1/)
     for dong in reg["dongs"]:
         dong_dir = f"{dir_path}/{dong['path']}"
         os.makedirs(dong_dir, exist_ok=True)
         
-        dong_badges_sub = ""
-        for d in reg["dongs"]:
-            active_class = " active" if d["path"] == dong["path"] else ""
-            # 하위 폴더이므로 상위 구로 나갔다가 다른 동으로 가는 상대 경로 지정 (../동path/)
-            dong_badges_sub += f'<a href="../{d["path"]}/" class="ch-dong-badge{active_class}">{d["name"]}</a>'
+        dong_badges_sub = "".join([f'<a href="../{d["path"]}/" class="ch-dong-badge{" active" if d["path"] == dong["path"] else ""}">{d["name"]}</a>' for d in reg["dongs"]])
+        
+        shop_items_sub = ""
+        for shop in shops:
+            shop_items_sub += f"""
+            <div class="ch-shop">
+              <div>
+                <div class="ch-shop-name"><a href="../{shop['id']}/">{shop["name"]}</a></div>
+                <div class="ch-shop-desc">{shop["desc"]}</div>
+                <div class="ch-shop-price">이용요금: {shop["price"]}</div>
+              </div>
+              <div class="ch-btn-group">
+                <a href="../{shop['id']}/" class="ch-detail-btn">상세보기</a>
+                <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
+              </div>
+            </div>
+            """
             
         dong_file = f"{dong_dir}/index.html"
         with open(dong_file, "w", encoding="utf-8") as f:
             f.write(page_template.format(
-                page_title=f"{gu_name} {dong['name']} 출장 마사지·홈타이",
-                sido_path=sido_path,
-                sido_name=sido_name,
-                gu_name=gu_name,
-                current_dong=f"› {dong['name']}",
-                dong_badges=dong_badges_sub,
-                shop_items=shop_items
+                page_title=f"{gu_name} {dong['name']} 마사지·홈케어",
+                sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong=f"› {dong['name']}",
+                dong_badges=dong_badges_sub, shop_items=shop_items_sub
             ))
         sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/")
         
@@ -219,4 +275,4 @@ sitemap_content += '</urlset>'
 with open("sitemap.xml", "w", encoding="utf-8") as f:
     f.write(sitemap_content)
 
-print(f"✨ 총 {count}개의 구와 모든 하위 동 페이지, 그리고 사이트맵이 완벽하게 생성 및 링크 연결되었습니다!")
+print(f"✨ 총 {count}개의 구와 모든 하위 동 페이지, 샵 상세 페이지 및 사이트맵이 완벽하게 생성되었습니다!")
