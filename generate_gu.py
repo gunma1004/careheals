@@ -63,37 +63,38 @@ shops = [
     { "name": "👑 골든테라피", "desc": "선입금 없는 100% 후불제! 수도권 전지역 평균 25분 내 실시간 도착", "phone": "0507-1280-3360", "price": "110,000원부터~" }
 ]
 
-gu_template = """<!doctype html>
+page_template = """<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{gu_name} 출장 마사지·홈타이 | 실시간 제휴 업체 안내 | 케어힐즈</title>
+<title>{page_title} | 케어힐즈</title>
 <style>
-:root{{--p:#1a3a5c;--a:#c9a84c;--bg:#f8f9fb;--bg2:#fff;--txt:#1a2332;--muted:#5a6a7e;--bdr:#dde3ec;--shadow:0 2px 12px rgba(26,58,92,.10);}}
+:root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--bg2:#fff;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;--shadow:0 2px 12px rgba(156,56,84,.08);}}
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{background:var(--bg);color:var(--txt);font-family:'Pretendard',sans-serif;line-height:1.6;padding-bottom:80px}}
 a{{color:inherit;text-decoration:none}}
-.ch-hd{{background:#fff;border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.07)}}
+.ch-hd{{background:#fff;border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.05)}}
 .ch-hd-inner{{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;padding:0 20px}}
 .ch-logo{{font-size:16px;font-weight:800;color:var(--p)}}
-.ch-tel{{background:var(--a);color:#fff;padding:8px 18px;border-radius:6px;font-weight:700;font-size:14px}}
+.ch-bc{{background:#fff;border-bottom:1px solid var(--bdr);padding:10px 20px;font-size:12px;color:var(--muted)}}
+.ch-bc a{{color:var(--p)}}
 .ch-sec{{padding:44px 20px}}
 .ch-sec-inner{{max-width:1100px;margin:0 auto}}
 .ch-sec h2{{font-size:20px;font-weight:800;color:var(--p);margin-bottom:12px}}
 .ch-info-box{{background:var(--p);color:#fff;border-radius:8px;padding:14px 18px;font-size:14px;margin-bottom:20px}}
-.ch-info-box strong{{color:var(--a)}}
+.ch-info-box strong{{color:#ffd1dc}}
 .ch-dong-wrap{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}}
 .ch-dong-badge{{background:#fff;border:1.5px solid var(--bdr);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);transition:all .15s;display:inline-block}}
-.ch-dong-badge:hover{{background:var(--p);color:#fff;border-color:var(--p)}}
+.ch-dong-badge:hover, .ch-dong-badge.active{{background:var(--p);color:#fff;border-color:var(--p)}}
 .ch-shop-list{{display:flex;flex-direction:column;gap:14px}}
 .ch-shop{{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:20px;display:flex;justify-content:space-between;align-items:center;transition:all .15s}}
 .ch-shop:hover{{border-color:var(--p);box-shadow:var(--shadow)}}
 .ch-shop-name{{font-size:17px;font-weight:800;color:var(--txt);margin-bottom:6px}}
 .ch-shop-desc{{font-size:13px;color:var(--muted);margin-bottom:10px}}
 .ch-shop-price{{font-size:15px;font-weight:800;color:var(--p)}}
-.ch-call{{background:var(--a);color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;font-size:13px;white-space:nowrap}}
-.ch-ft{{background:#1a2332;color:#8fa4be;padding:40px 20px;margin-top:40px;text-align:center;font-size:12px}}
+.ch-call{{background:var(--p);color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;font-size:13px;white-space:nowrap}}
+.ch-ft{{background:#3d232b;color:#d4b5bc;padding:40px 20px;margin-top:40px;text-align:center;font-size:12px}}
 @media(max-width:768px){{.ch-shop{{flex-direction:column;align-items:flex-start;gap:12px}}.ch-call{{width:100%;text-align:center}}}}
 </style>
 </head>
@@ -101,13 +102,17 @@ a{{color:inherit;text-decoration:none}}
 <header class="ch-hd">
   <div class="ch-hd-inner">
     <a href="https://careheals.netlify.app/" class="ch-logo">케어힐즈 (CAREHEALS)</a>
-    <a href="tel:050-8202-7994" class="ch-tel">📞 050-8202-7994</a>
   </div>
 </header>
+<nav class="ch-bc">
+  <div style="max-width:1100px;margin:0 auto;">
+    <a href="https://careheals.netlify.app/">홈</a> › <a href="https://careheals.netlify.app/{sido_path}/">{sido_name}</a> › {gu_name} {current_dong}
+  </div>
+</nav>
 <section class="ch-sec">
   <div class="ch-sec-inner">
-    <h2>{sido_name} {gu_name} 마사지 · 힐링 출장 홈케어 안내</h2>
-    <div class="ch-info-box"><strong>💰 {gu_name} 전 지역 단일 요금:</strong> 선입금 없는 100% 후불제 케어 서비스 제공</div>
+    <h2>{page_title}</h2>
+    <div class="ch-info-box"><strong>💰 전 지역 단일 요금:</strong> 선입금 없는 100% 후불제 케어 서비스 제공</div>
     
     <div style="margin-bottom:12px;font-weight:700;color:var(--p);">📍 방문 가능 행정동 전체 보기</div>
     <div class="ch-dong-wrap">
@@ -115,7 +120,7 @@ a{{color:inherit;text-decoration:none}}
     </div>
 
     <div style="margin-top:30px;margin-bottom:16px;">
-      <h3 style="font-size:18px;font-weight:800;color:var(--p);">✨ {gu_name} 실시간 추천 제휴 업체</h3>
+      <h3 style="font-size:18px;font-weight:800;color:var(--p);">✨ 실시간 추천 제휴 업체</h3>
     </div>
     <div class="ch-shop-list">
       {shop_items}
@@ -127,7 +132,6 @@ a{{color:inherit;text-decoration:none}}
 </html>
 """
 
-# 사이트맵(sitemap.xml) URL 리스트 수집 시작
 sitemap_urls = [
     "https://careheals.netlify.app/",
     "https://careheals.netlify.app/seoul/",
@@ -142,8 +146,8 @@ for reg in all_regions:
     gu_path = reg["path"]
     gu_name = reg["name"]
     
-    # 동 배지 생성 (클릭 시 해당 동 경로로 이동하도록 링크 부여)
-    dong_badges = "".join([f'<a href="./{dong["path"]}/" class="ch-dong-badge">{dong["name"]}</a>' for dong in reg["dongs"]])
+    dir_path = f"{sido_path}/{gu_path}"
+    os.makedirs(dir_path, exist_ok=True)
     
     # 제휴 업체 목록 HTML 생성
     shop_items = ""
@@ -160,43 +164,52 @@ for reg in all_regions:
           </div>
         </div>
         """
+
+    # 1. 구 허브 페이지 생성 (상대 경로 기준 뱃지 생성)
+    dong_badges_main = ""
+    for d in reg["dongs"]:
+        dong_badges_main += f'<a href="./{d["path"]}/" class="ch-dong-badge">{d["name"]}</a>'
     
-    # 구 폴더 경로 생성
-    dir_path = f"{sido_path}/{gu_path}"
-    os.makedirs(dir_path, exist_ok=True)
-    
-    # 구 허브 페이지 URL 추가
+    main_file = f"{dir_path}/index.html"
+    with open(main_file, "w", encoding="utf-8") as f:
+        f.write(page_template.format(
+            page_title=f"{gu_name} 출장 마사지·홈타이 안내",
+            sido_path=sido_path,
+            sido_name=sido_name,
+            gu_name=gu_name,
+            current_dong="",
+            dong_badges=dong_badges_main,
+            shop_items=shop_items
+        ))
     sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/")
-    
-    # 하위 동별 폴더 및 index.html 생성
+
+    # 2. 각 동별 페이지 생성 (하위 폴더 내부에서 상위 구로 돌아가거나 다른 동으로 갈 수 있게 경로 조정)
     for dong in reg["dongs"]:
         dong_dir = f"{dir_path}/{dong['path']}"
         os.makedirs(dong_dir, exist_ok=True)
         
+        dong_badges_sub = ""
+        for d in reg["dongs"]:
+            active_class = " active" if d["path"] == dong["path"] else ""
+            # 하위 폴더이므로 상위 구로 나갔다가 다른 동으로 가는 상대 경로 지정 (../동path/)
+            dong_badges_sub += f'<a href="../{d["path"]}/" class="ch-dong-badge{active_class}">{d["name"]}</a>'
+            
         dong_file = f"{dong_dir}/index.html"
         with open(dong_file, "w", encoding="utf-8") as f:
-            f.write(gu_template.format(
+            f.write(page_template.format(
+                page_title=f"{gu_name} {dong['name']} 출장 마사지·홈타이",
+                sido_path=sido_path,
                 sido_name=sido_name,
-                gu_name=f"{gu_name} {dong['name']}",
-                dong_badges=dong_badges,
+                gu_name=gu_name,
+                current_dong=f"› {dong['name']}",
+                dong_badges=dong_badges_sub,
                 shop_items=shop_items
             ))
-        
-        # 동별 URL 추가
         sitemap_urls.append(f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/")
-
-    # 메인 구 허브 index.html 파일 생성
-    file_path = f"{dir_path}/index.html"
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(gu_template.format(
-            sido_name=sido_name,
-            gu_name=gu_name,
-            dong_badges=dong_badges,
-            shop_items=shop_items
-        ))
+        
     count += 1
 
-# sitemap.xml 파일 생성
+# sitemap.xml 생성
 sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
 sitemap_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 for url in sitemap_urls:
@@ -206,4 +219,4 @@ sitemap_content += '</urlset>'
 with open("sitemap.xml", "w", encoding="utf-8") as f:
     f.write(sitemap_content)
 
-print(f"✨ 총 {count}개의 구·시·군 허브 및 하위 동 페이지가 생성되었으며, sitemap.xml도 성공적으로 생성되었습니다!")
+print(f"✨ 총 {count}개의 구와 모든 하위 동 페이지, 그리고 사이트맵이 완벽하게 생성 및 링크 연결되었습니다!")
