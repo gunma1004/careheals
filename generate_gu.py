@@ -91,7 +91,7 @@ shops = [
         "courses": [
             ("건식 힐링 코스 60분", "60,000원"), ("건식 힐링 코스 90분", "80,000원"), ("건식 힐링 코스 120분", "100,000원"),
             ("아로마 힐링 코스 60분", "70,000원"), ("아로마 힐링 코스 90분", "80,000원"), ("아로마 힐링 코스 120분", "100,000원"),
-            ("힐링스웨디시 코스 60분", "80,000원"), ("힐링스웨디시 코s 90분", "100,000원"), ("힐링스웨디시 코스 120분", "120,000원"),
+            ("힐링스웨디시 코스 60분", "80,000원"), ("힐링스웨디시 코스 90분", "100,000원"), ("힐링스웨디시 코스 120분", "120,000원"),
             ("VIP스페셜코스 60분", "100,000원"), ("VIP스페셜코스 90분", "120,000원"), ("VIP스페셜코스 120분", "150,000원"),
             ("한국 관리사 코스 60분", "150,000원"), ("한국 관리사 코스 90분", "180,000원")
         ]
@@ -182,18 +182,17 @@ a{{color:inherit;text-decoration:none}}
 </html>
 """
 
-# 샵 상세 페이지 템플릿 ([지역명] 출장 아로마 마사지 [샵이름] 형식 적용)
 shop_template = """<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{location_name} 출장 아로마 마사지 {shop_name} | 케어힐즈</title>
-<meta name="description" content="{location_name} 출장 아로마 마사지 {shop_name} 제휴 안내. 선입금 없는 100% 후불제 홈케어 코스 및 가격표 정보.">
+<title>{loc_title} 출장 아로마 마사지 {shop_name} | 케어힐즈</title>
+<meta name="description" content="{loc_title} 출장 아로마 마사지 {shop_name} 제휴 안내. 선입금 없는 100% 후불제 홈케어 코스 및 가격표 정보.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{shop_url}">
-<meta property="og:title" content="{location_name} 출장 아로마 마사지 {shop_name} | 케어힐즈">
-<meta property="og:description" content="{location_name} 출장 아로마 마사지 {shop_name} 제휴 안내. 선입금 없는 100% 후불제 홈케어 코스 및 가격표 정보.">
+<meta property="og:title" content="{loc_title} 출장 아로마 마사지 {shop_name} | 케어힐즈">
+<meta property="og:description" content="{loc_title} 출장 아로마 마사지 {shop_name} 제휴 안내. 선입금 없는 100% 후불제 홈케어 코스 및 가격표 정보.">
 <meta property="og:locale" content="ko_KR">
 <style>
 :root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;}}
@@ -222,7 +221,7 @@ a{{color:inherit;text-decoration:none}}
 <section class="ch-sec">
   <div class="ch-sec-inner">
     <h1 class="ch-title">{shop_name}</h1>
-    <p class="ch-sub">📍 서비스 지역: {location_name} 전 지역 (100% 후불제)</p>
+    <p class="ch-sub">📍 서비스 지역: {loc_title} 전 지역 (100% 후불제)</p>
     
     <table class="ch-table">
       <thead>
@@ -260,11 +259,12 @@ for reg in all_regions:
     dir_path = f"{sido_path}/{gu_path}"
     os.makedirs(dir_path, exist_ok=True)
     
-    shuffled_shops = shops.copy()
-    random.shuffle(shuffled_shops)
+    # 1. 구 허브 페이지 내 샵 리스트 (링크: ./shop1/)
+    shuffled_shops_gu = shops.copy()
+    random.shuffle(shuffled_shops_gu)
     
     shop_items_main = ""
-    for shop in shuffled_shops:
+    for shop in shuffled_shops_gu:
         shop_items_main += f"""
         <div class="ch-shop">
           <div>
@@ -288,33 +288,28 @@ for reg in all_regions:
     
     with open(main_file, "w", encoding="utf-8") as f:
         f.write(page_template.format(
-            page_title=gu_title,
-            page_desc=gu_desc,
-            page_url=gu_url,
+            page_title=gu_title, page_desc=gu_desc, page_url=gu_url,
             sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong="",
             dong_badges=dong_badges_main, shop_items=shop_items_main
         ))
     sitemap_urls.append(gu_url)
 
-    # 샵 상세 페이지 생성
+    # 구 하위에 샵 상세 페이지 생성 (예: /seoul/jongrogu/shop1/)
     for shop in shops:
         shop_dir = f"{dir_path}/{shop['id']}"
         os.makedirs(shop_dir, exist_ok=True)
         
-        course_rows = ""
-        for course, price in shop["courses"]:
-            course_rows += f"<tr><td>{course}</td><td>{price}</td></tr>\n"
-            
+        course_rows = "".join([f"<tr><td>{c}</td><td>{p}</td></tr>\n" for c, p in shop["courses"]])
         shop_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{shop['id']}/"
             
         with open(f"{shop_dir}/index.html", "w", encoding="utf-8") as f:
             f.write(shop_template.format(
-                shop_name=shop["name"], shop_phone=shop["phone"],
-                location_name=gu_name, course_rows=course_rows, shop_url=shop_url
+                loc_title=gu_name, shop_name=shop["name"], shop_phone=shop["phone"],
+                course_rows=course_rows, shop_url=shop_url
             ))
         sitemap_urls.append(shop_url)
 
-    # 각 동별 페이지 생성
+    # 2. 각 동별 페이지 및 동 하위 샵 상세 페이지 생성
     for dong in reg["dongs"]:
         dong_dir = f"{dir_path}/{dong['path']}"
         os.makedirs(dong_dir, exist_ok=True)
@@ -326,14 +321,15 @@ for reg in all_regions:
         
         shop_items_sub = ""
         for shop in shuffled_shops_dong:
+            # 동 하위 샵 링크는 상위 구로 나갔다가 해당 샵으로 가는 구조 대신 동 폴더 내부의 샵으로 연결 (../shop1/)
             shop_items_sub += f"""
             <div class="ch-shop">
               <div>
-                <div class="ch-shop-name"><a href="../{shop['id']}/">{shop["name"]}</a></div>
+                <div class="ch-shop-name"><a href="./{shop['id']}/">{shop["name"]}</a></div>
                 <div class="ch-shop-desc">선입금 없는 100% 후불제 맞춤 방문 힐링 케어</div>
               </div>
               <div class="ch-btn-group">
-                <a href="../{shop['id']}/" class="ch-detail-btn">상세보기 및 가격</a>
+                <a href="./{shop['id']}/" class="ch-detail-btn">상세보기 및 가격</a>
                 <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
               </div>
             </div>
@@ -343,16 +339,30 @@ for reg in all_regions:
         dong_title = f"{gu_name} {dong['name']} 마사지·홈타이 안내"
         dong_desc = f"{sido_name} {gu_name} {dong['name']} 전 지역 맞춤형 방문 홈케어 및 마사지 제휴 업체 정보 안내. 100% 후불제."
         
-        dong_file = f"{dong_dir}/index.html"
-        with open(dong_file, "w", encoding="utf-8") as f:
+        with open(f"{dong_dir}/index.html", "w", encoding="utf-8") as f:
             f.write(page_template.format(
-                page_title=dong_title,
-                page_desc=dong_desc,
-                page_url=dong_url,
+                page_title=dong_title, page_desc=dong_desc, page_url=dong_url,
                 sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong=f"› {dong['name']}",
                 dong_badges=dong_badges_sub, shop_items=shop_items_sub
             ))
         sitemap_urls.append(dong_url)
+
+        # 동 하위 샵 상세 페이지 생성 (예: /seoul/jongrogu/sajikdong/shop1/)
+        # 타이틀이 "종로구 사직동 출장 아로마 마사지 [샵이름]" 형태로 정확히 생성됨!
+        loc_dong_title = f"{gu_name} {dong['name']}"
+        for shop in shops:
+            dong_shop_dir = f"{dong_dir}/{shop['id']}"
+            os.makedirs(dong_shop_dir, exist_ok=True)
+            
+            course_rows = "".join([f"<tr><td>{c}</td><td>{p}</td></tr>\n" for c, p in shop["courses"]])
+            dong_shop_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/{shop['id']}/"
+                
+            with open(f"{dong_shop_dir}/index.html", "w", encoding="utf-8") as f:
+                f.write(shop_template.format(
+                    loc_title=loc_dong_title, shop_name=shop["name"], shop_phone=shop["phone"],
+                    course_rows=course_rows, shop_url=dong_shop_url
+                ))
+            sitemap_urls.append(dong_shop_url)
         
     count += 1
 
@@ -366,4 +376,4 @@ sitemap_content += '</urlset>'
 with open("sitemap.xml", "w", encoding="utf-8") as f:
     f.write(sitemap_content)
 
-print(f"✨ 샵 상세 페이지 타이틀이 '[지역명] 출장 아로마 마사지 [샵이름]' 형식으로 완벽하게 적용되었습니다!")
+print(f"✨ 구 샵과 동 샵이 독립적으로 분리되어, '종로구 사직동 출장 아로마 마사지 [샵이름]' 형식으로 완벽하게 생성되었습니다!")
