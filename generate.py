@@ -118,17 +118,15 @@ a{{color:inherit;text-decoration:none}}
 .cm2-bc-inner a{{color:var(--p)}}
 .cm2-sec{{padding:44px 20px}}
 .cm2-sec-inner{{max-width:1100px;margin:0 auto}}
+.cm2-dong-wrap{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}}
+.cm2-dong-badge{{background:#fff;border:1.5px solid var(--bdr);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);transition:all .15s;display:inline-block}}
+.cm2-dong-badge:hover, .cm2-dong-badge.active{{background:var(--p);color:#fff;border-color:var(--p)}}
 .cm2-shop{{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}}
 .cm2-shop-body{{padding:24px}}
 .cm2-shop-hd{{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}}
 .cm2-shop-name{{font-size:22px;font-weight:800;color:var(--txt)}}
 .cm2-shop-rating{{font-size:12px;background:#fff9ee;border:1px solid #e8c87a;color:#8a6000;padding:3px 10px;border-radius:4px;font-weight:700}}
-.cm2-shop-tags{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}}
-.cm2-tag{{font-size:11px;padding:3px 10px;border-radius:4px;background:#eef3fa;color:var(--p);font-weight:600}}
 .cm2-shop-intro{{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:16px}}
-.cm2-courses{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}}
-.cm2-course{{background:var(--bg);border:1px solid var(--bdr);border-radius:6px;padding:10px 14px;font-size:13px;flex:1;min-width:140px}}
-.cm2-course strong{{display:block;font-weight:700;color:var(--txt);margin-bottom:2px}}
 .cm2-shop-ft{{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--bdr)}}
 .cm2-price-label{{font-size:12px;color:var(--muted)}}
 .cm2-price-val{{font-size:18px;font-weight:800;color:var(--p)}}
@@ -164,7 +162,8 @@ a{{color:inherit;text-decoration:none}}
 
 <section class="cm2-sec">
   <div class="cm2-sec-inner" style="max-width:780px">
-    <h2 style="font-size:22px;font-weight:800;color:var(--p);margin-bottom:16px;">{page_heading}</h2>
+    <h2 style="font-size:22px;font-weight:800;color:var(--p);margin-bottom:12px;">{page_heading}</h2>
+    {dong_badges_html}
     {content_body}
   </div>
 </section>
@@ -194,6 +193,10 @@ for reg in all_regions:
     gu_dir = os.path.join("public", sido_path, gu_path)
     os.makedirs(gu_dir, exist_ok=True)
     
+    # 구 페이지 상단에 들어갈 동 배지 목록 생성
+    dong_badges_main = "".join([f'<a href="./{d["path"]}/" class="cm2-dong-badge">{d["name"]}</a>' for d in reg["dongs"]])
+    dong_badges_section = f'<div style="margin-bottom:12px;font-weight:700;color:var(--p);">📍 방문 가능 행정동 전체 보기</div><div class="cm2-dong-wrap">{dong_badges_main}</div>'
+    
     gu_shops_html = ""
     for shop in shops:
         gu_shops_html += f"""
@@ -219,6 +222,7 @@ for reg in all_regions:
             sido_path=sido_path, sido_name=sido_name, gu_path=gu_path, gu_name=gu_name,
             current_location=gu_name,
             page_heading=f"{gu_name} 제휴 업체 안내",
+            dong_badges_html=dong_badges_section,
             content_body=gu_shops_html
         ))
     sitemap_urls.append(gu_url)
@@ -253,13 +257,17 @@ for reg in all_regions:
                 shop_title=shop_title_str, shop_desc=shop_desc_str, shop_url=shop_url,
                 shop_phone=shop["phone"], sido_path=sido_path, sido_name=sido_name,
                 gu_path=gu_path, gu_name=gu_name, current_location=gu_name,
-                page_heading=shop["name"], content_body=single_shop_html
+                page_heading=shop["name"], dong_badges_html="", content_body=single_shop_html
             ))
         sitemap_urls.append(shop_url)
 
     for dong in reg["dongs"]:
         dong_dir = os.path.join(gu_dir, dong['path'])
         os.makedirs(dong_dir, exist_ok=True)
+        
+        # 동 페이지 안에서 다른 동들로 이동할 수 있는 배지 생성
+        dong_badges_sub = "".join([f'<a href="../{d["path"]}/" class="cm2-dong-badge{" active" if d["path"] == dong["path"] else ""}">{d["name"]}</a>' for d in reg["dongs"]])
+        dong_badges_section_sub = f'<div style="margin-bottom:12px;font-weight:700;color:var(--p);">📍 방문 가능 행정동 전체 보기</div><div class="cm2-dong-wrap">{dong_badges_sub}</div>'
         
         dong_shops_html = ""
         for shop in shops:
@@ -286,6 +294,7 @@ for reg in all_regions:
                 sido_path=sido_path, sido_name=sido_name, gu_path=gu_path, gu_name=gu_name,
                 current_location=dong['name'],
                 page_heading=f"{gu_name} {dong['name']} 제휴 업체 안내",
+                dong_badges_html=dong_badges_section_sub,
                 content_body=dong_shops_html
             ))
         sitemap_urls.append(dong_url)
@@ -321,8 +330,8 @@ for reg in all_regions:
                     shop_title=shop_title_str, shop_desc=shop_desc_str, shop_url=shop_url,
                     shop_phone=shop["phone"], sido_path=sido_path, sido_name=sido_name,
                     gu_path=gu_path, gu_name=gu_name, current_location=dong['name'],
-                    page_heading=shop["name"], content_body=single_shop_html
+                    page_heading=shop["name"], dong_badges_html="", content_body=single_shop_html
                 ))
             sitemap_urls.append(shop_url)
 
-print("성공적으로 페이지가 생성되었습니다.")
+print("구 및 동 페이지가 모두 성공적으로 생성되었습니다.")
