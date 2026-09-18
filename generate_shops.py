@@ -1,6 +1,7 @@
 import os
+import random
 
-# 1. 생성할 5개 업체 데이터
+# 1. 5개 제휴 업체 데이터
 shops = [
     {
         "id": "shop1",
@@ -44,20 +45,67 @@ shops = [
     }
 ]
 
-# 예시로 강남구 신사동 경로에 5개 업체 페이지를 생성합니다. 
-# (원하시는 다른 동이나 전체 동으로 확장하시려면 이전 스크립트 구조와 결합하시면 됩니다!)
-target_dir = "seoul/gangnamgu/sinsadong"
+# 2. 서울, 경기, 인천 주요 행정구역 데이터 (1,000여 개 페이지 확장 기반)
+all_regions = [
+    # --- 서울시 25개 구 ---
+    {"sido": "seoul", "sido_name": "서울", "path": "jongrogu", "name": "종로구", "dongs": [{"name": "사직동", "path": "sajikdong"}, {"name": "삼청동", "path": "samcheongdong"}, {"name": "부암동", "path": "buamdong"}, {"name": "평창동", "path": "pyeongchangdong"}, {"name": "무악동", "path": "muakdong"}, {"name": "교남동", "path": "gyonamdong"}, {"name": "가회동", "path": "gahoedong"}, {"name": "종로동", "path": "jongrodong"}, {"name": "이화동", "path": "ihwadong"}, {"name": "창신동", "path": "changsindong"}, {"name": "숭인동", "path": "sungindong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "junggu", "name": "중구", "dongs": [{"name": "소공동", "path": "sogongdong"}, {"name": "회현동", "path": "hoehyeondong"}, {"name": "명동", "path": "myeongdong"}, {"name": "필동", "path": "pildong"}, {"name": "장충동", "path": "jangchungdong"}, {"name": "광희동", "path": "gwanghuidong"}, {"name": "을지로동", "path": "euljirodong"}, {"name": "신당동", "path": "sindangdong"}, {"name": "황학동", "path": "hwanghakdong"}, {"name": "중림동", "path": "jungrimdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "yongsangu", "name": "용산구", "dongs": [{"name": "후암동", "path": "huamdong"}, {"name": "용산동", "path": "yongsandong"}, {"name": "남영동", "path": "namyeongdong"}, {"name": "원효로동", "path": "wonhyorodong"}, {"name": "효창동", "path": "hyochangdong"}, {"name": "용문동", "path": "yongmundong"}, {"name": "이촌동", "path": "ichondong"}, {"name": "이태원동", "path": "itaewondong"}, {"name": "한남동", "path": "hannamdong"}, {"name": "보광동", "path": "bogwangdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "seongdonggu", "name": "성동구", "dongs": [{"name": "왕십리동", "path": "wangsipridong"}, {"name": "마장동", "path": "majangdong"}, {"name": "사근동", "path": "sageundong"}, {"name": "행당동", "path": "haengdangdong"}, {"name": "응봉동", "path": "eungbongdong"}, {"name": "금호동", "path": "geumhodong"}, {"name": "옥수동", "path": "oksudong"}, {"name": "성수동", "path": "seongsudong"}, {"name": "송정동", "path": "songjeongdong"}, {"name": "용답동", "path": "yongdapdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gwangjingu", "name": "광진구", "dongs": [{"name": "중곡동", "path": "junggokdong"}, {"name": "능동", "path": "neungdong"}, {"name": "구의동", "path": "guuidong"}, {"name": "광장동", "path": "gwangjangdong"}, {"name": "자양동", "path": "jayangdong"}, {"name": "화양동", "path": "hwayangdong"}, {"name": "군자동", "path": "gunjadong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "dongdaemungu", "name": "동대문구", "dongs": [{"name": "용신동", "path": "yongsindong"}, {"name": "제기동", "path": "jegidong"}, {"name": "전농동", "path": "jeonnongdong"}, {"name": "답십리동", "path": "dapsipridong"}, {"name": "장안동", "path": "jangandong"}, {"name": "청량리동", "path": "cheongryangridong"}, {"name": "회기동", "path": "hoegidong"}, {"name": "휘경동", "path": "hwigyeongdong"}, {"name": "이문동", "path": "imundong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "jungnanggu", "name": "중랑구", "dongs": [{"name": "면목동", "path": "myeonmokdong"}, {"name": "상봉동", "path": "sangbongdong"}, {"name": "중화동", "path": "junghwadong"}, {"name": "묵동", "path": "mukdong"}, {"name": "망우동", "path": "mangudong"}, {"name": "신내동", "path": "sinnaedong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "seongbukgu", "name": "성북구", "dongs": [{"name": "성북동", "path": "seongbukdong"}, {"name": "삼선동", "path": "samseondong"}, {"name": "동선동", "path": "dongseondong"}, {"name": "돈암동", "path": "donamdong"}, {"name": "안암동", "path": "anamdong"}, {"name": "보문동", "path": "bomundong"}, {"name": "정릉동", "path": "jeongreungdong"}, {"name": "길음동", "path": "gileumdong"}, {"name": "종암동", "path": "jongamdong"}, {"name": "월곡동", "path": "wolgokdong"}, {"name": "장위동", "path": "jangwidong"}, {"name": "석관동", "path": "seokgwandong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gangbukgu", "name": "강북구", "dongs": [{"name": "삼양동", "path": "samyangdong"}, {"name": "미아동", "path": "miadong"}, {"name": "송중동", "path": "songjungdong"}, {"name": "송천동", "path": "songcheondong"}, {"name": "수유동", "path": "suyudong"}, {"name": "번동", "path": "beondong"}, {"name": "우이동", "path": "uidong"}, {"name": "인수동", "path": "insudong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "dobonggu", "name": "도봉구", "dongs": [{"name": "창동", "path": "changdong"}, {"name": "도봉동", "path": "dobongdong"}, {"name": "방학동", "path": "banghakdong"}, {"name": "쌍문동", "path": "ssangmundong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "nowongu", "name": "노원구", "dongs": [{"name": "월계동", "path": "wolgyedong"}, {"name": "공릉동", "path": "gongreungdong"}, {"name": "하계동", "path": "hagyedong"}, {"name": "중계동", "path": "junggyedong"}, {"name": "상계동", "path": "sanggyedong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "eunpyeonggu", "name": "은평구", "dongs": [{"name": "녹번동", "path": "nokbeondong"}, {"name": "불광동", "path": "bulgwangdong"}, {"name": "갈현동", "path": "galhyeondong"}, {"name": "구산동", "path": "gusandong"}, {"name": "대조동", "path": "daejodong"}, {"name": "응암동", "path": "eungamdong"}, {"name": "신사동", "path": "sinsadong"}, {"name": "증산동", "path": "jeungsandong"}, {"name": "수색동", "path": "susaekdong"}, {"name": "진관동", "path": "jingwandong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "seodaemungu", "name": "서대문구", "dongs": [{"name": "천연동", "path": "cheonyeondong"}, {"name": "홍제동", "path": "hongjedong"}, {"name": "홍은동", "path": "hongeundong"}, {"name": "남가좌동", "path": "namgajwadong"}, {"name": "북가좌동", "path": "bukgajwadong"}, {"name": "신촌동", "path": "sinchondong"}, {"name": "연희동", "path": "yeonhuidong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "mapogu", "name": "마포구", "dongs": [{"name": "공덕동", "path": "gongdeokdong"}, {"name": "아현동", "path": "ahyeondong"}, {"name": "도화동", "path": "dohwadong"}, {"name": "서교동", "path": "seogyodong"}, {"name": "합정동", "path": "hapjeongdong"}, {"name": "망원동", "path": "mangwondong"}, {"name": "연남동", "path": "yeonnamdong"}, {"name": "성산동", "path": "seongsandong"}, {"name": "상암동", "path": "sangamdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "yangcheongu", "name": "양천구", "dongs": [{"name": "목동", "path": "mokdong"}, {"name": "신월동", "path": "sinwoldong"}, {"name": "신정동", "path": "sinjeongdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gangseogu", "name": "강서구", "dongs": [{"name": "염창동", "path": "yeomchangdong"}, {"name": "등촌동", "path": "deungchondong"}, {"name": "화곡동", "path": "hwagokdong"}, {"name": "가양동", "path": "gayangdong"}, {"name": "발산동", "path": "balsandong"}, {"name": "공항동", "path": "gonghangdong"}, {"name": "방화동", "path": "banghwadong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gurogu", "name": "구로구", "dongs": [{"name": "신도림동", "path": "sindorimdong"}, {"name": "구로동", "path": "gurodong"}, {"name": "고척동", "path": "gocheokdong"}, {"name": "개봉동", "path": "gaebongdong"}, {"name": "오류동", "path": "oryudong"}, {"name": "항동", "path": "hangdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "geumcheongu", "name": "금천구", "dongs": [{"name": "가산동", "path": "gasandong"}, {"name": "독산동", "path": "doksandong"}, {"name": "시흥동", "path": "siheungdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "yeongdeungpogu", "name": "영등포구", "dongs": [{"name": "영등포동", "path": "yeongdeungpodong"}, {"name": "여의동", "path": "yeouidong"}, {"name": "당산동", "path": "dangsandong"}, {"name": "문래동", "path": "munraedong"}, {"name": "양평동", "path": "yangpyeongdong"}, {"name": "신길동", "path": "singildong"}, {"name": "대림동", "path": "daerimdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "dongjakgu", "name": "동작구", "dongs": [{"name": "노량진동", "path": "noryangjindong"}, {"name": "상도동", "path": "sangdodong"}, {"name": "흑석동", "path": "heukseokdong"}, {"name": "사당동", "path": "sadangdong"}, {"name": "대방동", "path": "daebangdong"}, {"name": "신대방동", "path": "sindaebangdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gwanakgu", "name": "관악구", "dongs": [{"name": "보라매동", "path": "boramaedong"}, {"name": "은천동", "path": "euncheondong"}, {"name": "성현동", "path": "seonghyeondong"}, {"name": "낙성대동", "path": "nakseongdaedong"}, {"name": "신림동", "path": "sinlimdong"}, {"name": "서원동", "path": "seowondong"}, {"name": "신사동", "path": "sinsadong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "seochogu", "name": "서초구", "dongs": [{"name": "서초동", "path": "seochodong"}, {"name": "잠원동", "path": "jamwondong"}, {"name": "반포동", "path": "banpodong"}, {"name": "방배동", "path": "bangbaedong"}, {"name": "양재동", "path": "yangjaedong"}, {"name": "내곡동", "path": "naegokdong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gangnamgu", "name": "강남구", "dongs": [{"name": "신사동", "path": "sinsadong"}, {"name": "논현동", "path": "nonhyeondong"}, {"name": "압구정동", "path": "apgujeongdong"}, {"name": "청담동", "path": "cheongdamdong"}, {"name": "삼성동", "path": "samseongdong"}, {"name": "역삼동", "path": "yeoksamdong"}, {"name": "대치동", "path": "daechidong"}, {"name": "도곡동", "path": "dogokdong"}, {"name": "개포동", "path": "gaepodong"}, {"name": "수서동", "path": "suseodong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "songpagu", "name": "송파구", "dongs": [{"name": "풍납동", "path": "pungnapdong"}, {"name": "잠실동", "path": "jamsildong"}, {"name": "삼전동", "path": "samjeondong"}, {"name": "석촌동", "path": "seokchondong"}, {"name": "송파동", "path": "songpadong"}, {"name": "방이동", "path": "bangidong"}, {"name": "문정동", "path": "munjeongdong"}, {"name": "가락동", "path": "ganakdong"}, {"name": "거여동", "path": "geoyeodong"}, {"name": "마천동", "path": "macheondong"}]},
+    {"sido": "seoul", "sido_name": "서울", "path": "gangdonggu", "name": "강동구", "dongs": [{"name": "명일동", "path": "myeongildong"}, {"name": "고덕동", "path": "godeokdong"}, {"name": "암사동", "path": "amsadong"}, {"name": "천호동", "path": "cheonhodong"}, {"name": "성내동", "path": "seongnaedong"}, {"name": "둔촌동", "path": "dunchondong"}, {"name": "길동", "path": "gildong"}]},
+    # --- 경기도 및 인천 주요 지역 ---
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_paldal", "name": "수원시 팔달구", "dongs": [{"name": "인계동", "path": "ingyedong"}, {"name": "우만동", "path": "umandong"}, {"name": "지동", "path": "jidong"}, {"name": "매산동", "path": "maesandong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_bundang", "name": "성남시 분당구", "dongs": [{"name": "서현동", "path": "seohyeondong"}, {"name": "정자동", "path": "jeongjadong"}, {"name": "수내동", "path": "sunaedong"}, {"name": "야탑동", "path": "yatapdong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "yeonsugu", "name": "연수구", "dongs": [{"name": "송도동", "path": "songdodong"}, {"name": "연수동", "path": "yeonsudong"}, {"name": "동춘동", "path": "dongchundong"}]}
+]
 
+# 3. '출장'과 '마사지'가 절대 붙어있지 않도록 분산 배치된 순차 패턴 정의
+title_patterns = [
+    "{loc_title} 출장 전문 스웨디시 마사지 추천 {shop_name} | 케어힐즈",
+    "{loc_title} 타이 출장 테라피 및 마사지 안내 {shop_name} | 케어힐즈",
+    "{loc_title} 아로마 출장 케어 전문 마사지 샵 {shop_name} | 케어힐즈",
+    "{loc_title} 방문 출장 감성 홈케어 마사지 {shop_name} | 케어힐즈",
+    "{loc_title} 힐링 출장 테라피 코스 마사지 {shop_name} | 케어힐즈"
+]
+
+desc_patterns = [
+    "{loc_title} 지역에서 이용 가능한 출장 전문 매장 {shop_name} 제휴 안내. 선입금 없는 후불제 홈케어 마사지 코스 및 가격표 정보.",
+    "{loc_title} 맞춤형 방문 출장 프로그램 운영 중인 {shop_name} 안내. 안전한 후불제 시스템으로 이용하는 전문 마사지 정보.",
+    "{loc_title} 전 지역 출장 케어 서비스 {shop_name} 제휴 페이지. 신뢰할 수 있는 후불제 아로마 및 타이 마사지 안내.",
+    "{loc_title} 감성 충전 출장 홈케어 전문 {shop_name} 방문 안내. 부담 없는 후불제로 즐기는 프리미엄 마사지 코스 모음."
+]
+
+# HTML 템플릿
 html_template = """<!doctype html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>{shop_name} | 신사동 출장 프리미엄아로마 마사지 | 케어힐즈</title>
-<meta name="description" content="출장 마사지 전문 안내. {shop_name} — 프리미엄 홈케어 서비스. 신사동 방문 관리사 즉시 연결. 여성·남성 관리사 선택 가능.">
+<title>{shop_title}</title>
+<meta name="description" content="{shop_desc}">
 <meta name="robots" content="index,follow">
-<link rel="canonical" href="https://careheals.netlify.app/seoul/gangnamgu/sinsadong/{shop_id}/">
+<link rel="canonical" href="{shop_url}">
 <style>
 :root{{--p:#1a3a5c;--a:#c9a84c;--bg:#f8f9fb;--bg2:#fff;--txt:#1a2332;--muted:#5a6a7e;--bdr:#dde3ec;--hd:#fff;--ft:#1a2332;--shadow:0 2px 12px rgba(26,58,92,.10);}}
 *{{box-sizing:border-box;margin:0;padding:0}}
@@ -113,9 +161,9 @@ a{{color:inherit;text-decoration:none}}
 <nav class="cm2-bc">
   <div class="cm2-bc-inner">
     <a href="https://careheals.netlify.app/">케어힐즈</a> › 
-    <a href="https://careheals.netlify.app/seoul/">서울</a> › 
-    <a href="https://careheals.netlify.app/seoul/gangnamgu/">강남구</a> › 
-    <a href="https://careheals.netlify.app/seoul/gangnamgu/sinsadong/">신사동</a> › {shop_name}
+    <a href="https://careheals.netlify.app/{sido_path}/">{sido_name}</a> › 
+    <a href="https://careheals.netlify.app/{sido_path}/{gu_path}/">{gu_name}</a> › 
+    {current_dong} {shop_name}
   </div>
 </nav>
 
@@ -166,20 +214,51 @@ a{{color:inherit;text-decoration:none}}
 </html>
 """
 
-# 2. 반복문으로 5개 업체 페이지 자동 생성
-for shop in shops:
-    folder_path = f"{target_dir}/{shop['id']}"
-    os.makedirs(folder_path, exist_ok=True)
-    
-    file_path = f"{folder_path}/index.html"
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(html_template.format(
-            shop_id=shop["id"],
-            shop_name=shop["name"],
-            shop_tag=shop["tag"],
-            shop_desc=shop["desc"],
-            shop_price=shop["price"],
-            shop_phone=shop["phone"]
-        ))
+# 4. 1000개 이상의 페이지 순차적 자동 생성 루프
+sitemap_urls = []
+global_index = 0
 
-print("✨ 5개의 제휴 업체 상세 페이지가 성공적으로 생성되었습니다!")
+for reg in all_regions:
+    sido_path = reg["sido"]
+    sido_name = reg["sido_name"]
+    gu_path = reg["path"]
+    gu_name = reg["name"]
+    
+    # 각 동별 순회 생성 (동마다 5개 샵 = 대량 페이지 확장)
+    for dong in reg["dongs"]:
+        dong_dir = f"{sido_path}/{gu_path}/{dong['path']}"
+        
+        for shop in shops:
+            shop_dir = f"{dong_dir}/{shop['id']}"
+            os.makedirs(shop_dir, exist_ok=True)
+            
+            # 순차 패턴 적용 ('출장'과 '마사지'가 절대 붙어있지 않음)
+            t_pattern = title_patterns[global_index % len(title_patterns)]
+            d_pattern = desc_patterns[global_index % len(desc_patterns)]
+            global_index += 1
+            
+            loc_title = f"{gu_name} {dong['name']}"
+            shop_title_str = t_pattern.format(loc_title=loc_title, shop_name=shop["name"])
+            shop_desc_str = d_pattern.format(loc_title=loc_title, shop_name=shop["name"])
+            shop_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/{shop['id']}/"
+            
+            file_path = f"{shop_dir}/index.html"
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(html_template.format(
+                    shop_title=shop_title_str,
+                    shop_desc=shop_desc_str,
+                    shop_url=shop_url,
+                    shop_name=shop["name"],
+                    shop_tag=shop["tag"],
+                    shop_desc_text=shop["desc"],
+                    shop_price=shop["price"],
+                    shop_phone=shop["phone"],
+                    sido_path=sido_path,
+                    sido_name=sido_name,
+                    gu_path=gu_path,
+                    gu_name=gu_name,
+                    current_dong=dong["name"]
+                ))
+            sitemap_urls.append(shop_url)
+
+print(f"✨ 총 {len(sitemap_urls)}개의 고유 페이지가 순차 조합 패턴으로 생성되었습니다!")
