@@ -44,7 +44,9 @@ shops = [
     }
 ]
 
+# 서울, 경기 전 지역(44개), 인천 데이터 통합
 all_regions = [
+    # --- [서울시 25개 구] ---
     {"sido": "seoul", "sido_name": "서울", "path": "jongrogu", "name": "종로구", "dongs": [{"name": "사직동", "path": "sajikdong"}, {"name": "삼청동", "path": "samcheongdong"}, {"name": "부암동", "path": "buamdong"}, {"name": "평창동", "path": "pyeongchangdong"}, {"name": "무악동", "path": "muakdong"}, {"name": "교남동", "path": "gyonamdong"}, {"name": "가회동", "path": "gahoedong"}, {"name": "종로동", "path": "jongrodong"}, {"name": "이화동", "path": "ihwadong"}, {"name": "창신동", "path": "changsindong"}, {"name": "숭인동", "path": "sungindong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "junggu", "name": "중구", "dongs": [{"name": "소공동", "path": "sogongdong"}, {"name": "회현동", "path": "hoehyeondong"}, {"name": "명동", "path": "myeongdong"}, {"name": "필동", "path": "pildong"}, {"name": "장충동", "path": "jangchungdong"}, {"name": "광희동", "path": "gwanghuidong"}, {"name": "을지로동", "path": "euljirodong"}, {"name": "신당동", "path": "sindangdong"}, {"name": "황학동", "path": "hwanghakdong"}, {"name": "중림동", "path": "jungrimdong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "yongsangu", "name": "용산구", "dongs": [{"name": "후암동", "path": "huamdong"}, {"name": "용산동", "path": "yongsandong"}, {"name": "남영동", "path": "namyeongdong"}, {"name": "원효로동", "path": "wonhyorodong"}, {"name": "효창동", "path": "hyochangdong"}, {"name": "용문동", "path": "yongmundong"}, {"name": "이촌동", "path": "ichondong"}, {"name": "이태원동", "path": "itaewondong"}, {"name": "한남동", "path": "hannamdong"}, {"name": "보광동", "path": "bogwangdong"}]},
@@ -70,10 +72,63 @@ all_regions = [
     {"sido": "seoul", "sido_name": "서울", "path": "gangnamgu", "name": "강남구", "dongs": [{"name": "신사동", "path": "sinsadong"}, {"name": "논현동", "path": "nonhyeondong"}, {"name": "압구정동", "path": "apgujeongdong"}, {"name": "청담동", "path": "cheongdamdong"}, {"name": "삼성동", "path": "samseongdong"}, {"name": "역삼동", "path": "yeoksamdong"}, {"name": "대치동", "path": "daechidong"}, {"name": "도곡동", "path": "dogokdong"}, {"name": "개포동", "path": "gaepodong"}, {"name": "수서동", "path": "suseodong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "songpagu", "name": "송파구", "dongs": [{"name": "풍납동", "path": "pungnapdong"}, {"name": "잠실동", "path": "jamsildong"}, {"name": "삼전동", "path": "samjeondong"}, {"name": "석촌동", "path": "seokchondong"}, {"name": "송파동", "path": "songpadong"}, {"name": "방이동", "path": "bangidong"}, {"name": "문정동", "path": "munjeongdong"}, {"name": "가락동", "path": "ganakdong"}, {"name": "거여동", "path": "geoyeodong"}, {"name": "마천동", "path": "macheondong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "gangdonggu", "name": "강동구", "dongs": [{"name": "명일동", "path": "myeongildong"}, {"name": "고덕동", "path": "godeokdong"}, {"name": "암사동", "path": "amsadong"}, {"name": "천호동", "path": "cheonhodong"}, {"name": "성내동", "path": "seongnaedong"}, {"name": "둔촌동", "path": "dunchondong"}, {"name": "길동", "path": "gildong"}]},
+
+    # --- [경기도 44개 전 지역] ---
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_jangan", "name": "수원시 장안구", "dongs": [{"name": "정자동", "path": "jeongjadong"}, {"name": "조원동", "path": "jowondong"}, {"name": "파장동", "path": "pajangdong"}, {"name": "율천동", "path": "yulcheondong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_gwonseon", "name": "수원시 권선구", "dongs": [{"name": "권선동", "path": "gwonseondong"}, {"name": "곡반정동", "path": "gokbanjeongdong"}, {"name": "세류동", "path": "seryudong"}, {"name": "탑동", "path": "tapdong"}, {"name": "호매실동", "path": "homaesildong"}]},
     {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_paldal", "name": "수원시 팔달구", "dongs": [{"name": "인계동", "path": "ingyedong"}, {"name": "우만동", "path": "umandong"}, {"name": "지동", "path": "jidong"}, {"name": "매산동", "path": "maesandong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_yeongtong", "name": "수원시 영통구", "dongs": [{"name": "영통동", "path": "yeongtongdong"}, {"name": "매탄동", "path": "maetandong"}, {"name": "원천동", "path": "woncheondong"}, {"name": "광교동", "path": "gwanggyodong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_sujeong", "name": "성남시 수정구", "dongs": [{"name": "태평동", "path": "taepyeongdong"}, {"name": "신흥동", "path": "sinheungdong"}, {"name": "수진동", "path": "sujindong"}, {"name": "산성동", "path": "sanseongdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_jungwon", "name": "성남시 중원구", "dongs": [{"name": "성남동", "path": "seongnamdong"}, {"name": "금광동", "path": "geumgwangdong"}, {"name": "상대원동", "path": "sangdaewondong"}, {"name": "하대원동", "path": "hadaewondong"}]},
     {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_bundang", "name": "성남시 분당구", "dongs": [{"name": "서현동", "path": "seohyeondong"}, {"name": "정자동", "path": "jeongjadong"}, {"name": "수내동", "path": "sunaedong"}, {"name": "야탑동", "path": "yatapdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "goyang_deogyang", "name": "고양시 덕양구", "dongs": [{"name": "화정동", "path": "hwajeongdong"}, {"name": "행신동", "path": "haengsindong"}, {"name": "삼송동", "path": "samsongdong"}, {"name": "원흥동", "path": "wonheungdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "goyang_ilsandong", "name": "고양시 일산동구", "dongs": [{"name": "백석동", "path": "baekseokdong"}, {"name": "마두동", "path": "madudong"}, {"name": "정발산동", "path": "jeongbalsandong"}, {"name": "식사동", "path": "siksadong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "goyang_ilsanseo", "name": "고양시 일산서구", "dongs": [{"name": "대화동", "path": "daehwadong"}, {"name": "주엽동", "path": "juyeopdong"}, {"name": "탄현동", "path": "tanhyeondong"}, {"name": "일산동", "path": "ilsandong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yongin_cheoin", "name": "용인시 처인구", "dongs": [{"name": "역북동", "path": "yeokbukdong"}, {"name": "김량장동", "path": "kimryangjangdong"}, {"name": "유림동", "path": "yurimdong"}, {"name": "동부동", "path": "dongbudong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yongin_giheung", "name": "용인시 기흥구", "dongs": [{"name": "구갈동", "path": "gugaldong"}, {"name": "동백동", "path": "dongbaekdong"}, {"name": "신갈동", "path": "singaldong"}, {"name": "보정동", "path": "bojeongdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yongin_suji", "name": "용인시 수지구", "dongs": [{"name": "풍덕천동", "path": "pungdeokcheondong"}, {"name": "죽전동", "path": "jukjeondong"}, {"name": "상현동", "path": "sanghyeondong"}, {"name": "성복동", "path": "seongbokdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "bucheon_wonmi", "name": "부천시 원미구", "dongs": [{"name": "중동", "path": "jungdong"}, {"name": "상동", "path": "sangdong"}, {"name": "심곡동", "path": "simgokdong"}, {"name": "원미동", "path": "wonmidong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "bucheon_sosa", "name": "부천시 소사구", "dongs": [{"name": "소사본동", "path": "sosabondong"}, {"name": "범박동", "path": "beombakdong"}, {"name": "역곡동", "path": "yeokgokdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "bucheon_ojeong", "name": "부천시 오정구", "dongs": [{"name": "오정동", "path": "ojeongdong"}, {"name": "원종동", "path": "wonjongdong"}, {"name": "고강동", "path": "gogangdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "anyang_manan", "name": "안양시 만안구", "dongs": [{"name": "안양동", "path": "anyangdong"}, {"name": "석수동", "path": "seoksudong"}, {"name": "박달동", "path": "bakdaldong"}]},
     {"sido": "gyeonggi", "sido_name": "경기", "path": "anyang_dongan", "name": "안양시 동안구", "dongs": [{"name": "비산동", "path": "bisandong"}, {"name": "평촌동", "path": "pyeongchondong"}, {"name": "호계동", "path": "hogyedong"}, {"name": "관양동", "path": "gwanyangdong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "yeonsugu", "name": "연수구", "dongs": [{"name": "송도동", "path": "songdodong"}, {"name": "연수동", "path": "yeonsudong"}, {"name": "동춘동", "path": "dongchundong"}]}
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "ansan_sangnok", "name": "안산시 상록구", "dongs": [{"name": "본오동", "path": "bonodong"}, {"name": "사동", "path": "sadong"}, {"name": "이동", "path": "idong"}, {"name": "월피동", "path": "wolpidong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "ansan_danwon", "name": "안산시 단원구", "dongs": [{"name": "고잔동", "path": "gojandong"}, {"name": "초지동", "path": "chojidong"}, {"name": "선부동", "path": "seonbudong"}, {"name": "원곡동", "path": "wongokdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "uijeongbusi", "name": "의정부시", "dongs": [{"name": "의정부동", "path": "uijeongbudong"}, {"name": "신곡동", "path": "singokdong"}, {"name": "가능동", "path": "ganeungdong"}, {"name": "호원동", "path": "howondong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "pyeongtaeksi", "name": "평택시", "dongs": [{"name": "비전동", "path": "bijeondong"}, {"name": "동삭동", "path": "dongsakdong"}, {"name": "고덕동", "path": "godeokdong"}, {"name": "서정동", "path": "seojeongdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "dongducheonsi", "name": "동두천시", "dongs": [{"name": "생연동", "path": "saengyeondong"}, {"name": "지행동", "path": "jihaengdong"}, {"name": "보산동", "path": "bosandong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gwangmyeongsi", "name": "광명시", "dongs": [{"name": "철산동", "path": "cheolsandong"}, {"name": "하안동", "path": "haandong"}, {"name": "소하동", "path": "sohadong"}, {"name": "광명동", "path": "gwangmyeongdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gwacheonsi", "name": "과천시", "dongs": [{"name": "중앙동", "path": "jungangdong"}, {"name": "별양동", "path": "byeolyangdong"}, {"name": "문원동", "path": "munwondong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gurisi", "name": "구리시", "dongs": [{"name": "인창동", "path": "inchangdong"}, {"name": "수택동", "path": "sutaekdong"}, {"name": "교문동", "path": "gyomundong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "namyangjusi", "name": "남양주시", "dongs": [{"name": "다산동", "path": "dasandong"}, {"name": "별내동", "path": "byeolnaedong"}, {"name": "호평동", "path": "hopyeongdong"}, {"name": "평내동", "path": "pyeongnaedong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "osansi", "name": "오산시", "dongs": [{"name": "궐동", "path": "gwoldong"}, {"name": "원동", "path": "wondong"}, {"name": "오산동", "path": "osandong"}, {"name": "세교동", "path": "segyodong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "siheungsi", "name": "시흥시", "dongs": [{"name": "배곧동", "path": "baegotdong"}, {"name": "정왕동", "path": "jeongwangdong"}, {"name": "대야동", "path": "daeyadong"}, {"name": "목감동", "path": "mokgamdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gunposi", "name": "군포시", "dongs": [{"name": "산본동", "path": "sanbondong"}, {"name": "금정동", "path": "geumjeongdong"}, {"name": "대야미동", "path": "daeyamidong"}, {"name": "부곡동", "path": "bugokdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "uiwangsi", "name": "의왕시", "dongs": [{"name": "내손동", "path": "naesondong"}, {"name": "오전동", "path": "ojeondong"}, {"name": "포일동", "path": "poildong"}, {"name": "부곡동", "path": "bugokdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "hanamsi", "name": "하남시", "dongs": [{"name": "미사동", "path": "misadong"}, {"name": "풍산동", "path": "pungsandong"}, {"name": "신장동", "path": "sinjangdong"}, {"name": "창우동", "path": "changwudong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "pajusi", "name": "파주시", "dongs": [{"name": "운정동", "path": "unjeongdong"}, {"name": "금촌동", "path": "geumchondong"}, {"name": "교하동", "path": "gyohadong"}, {"name": "문산읍", "path": "munsaneup"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "icheonsi", "name": "이천시", "dongs": [{"name": "증포동", "path": "jeungpodong"}, {"name": "창전동", "path": "changjeondong"}, {"name": "중리동", "path": "junglidong"}, {"name": "부발읍", "path": "bubaleup"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "anseongsi", "name": "안성시", "dongs": [{"name": "공도읍", "path": "gongdoeup"}, {"name": "안성동", "path": "anseongdong"}, {"name": "대덕면", "path": "daedeokmyeon"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gimposi", "name": "김포시", "dongs": [{"name": "구래동", "path": "guraedong"}, {"name": "장기동", "path": "janggidong"}, {"name": "운양동", "path": "unyangdong"}, {"name": "사우동", "path": "saudong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "hwaseongsi", "name": "화성시", "dongs": [{"name": "동탄동", "path": "dongtandong"}, {"name": "병점동", "path": "byeongjeomdong"}, {"name": "향남읍", "path": "hyangnameup"}, {"name": "남양읍", "path": "namyangeup"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gwangjusi", "name": "광주시", "dongs": [{"name": "오포동", "path": "opodong"}, {"name": "경안동", "path": "gyeongandong"}, {"name": "초월읍", "path": "chowoleup"}, {"name": "곤지암읍", "path": "gonjigameup"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yangjusi", "name": "양주시", "dongs": [{"name": "회천동", "path": "hoecheondong"}, {"name": "양주동", "path": "yangjudong"}, {"name": "옥정동", "path": "okjeongdong"}, {"name": "덕정동", "path": "deokjeongdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "pocheonsi", "name": "포천시", "dongs": [{"name": "소흘읍", "path": "soheuleup"}, {"name": "포천동", "path": "pocheondong"}, {"name": "선단동", "path": "seandandong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yeojusi", "name": "여주시", "dongs": [{"name": "오학동", "path": "ohakdong"}, {"name": "여흥동", "path": "yeoheungdong"}, {"name": "중앙동", "path": "jungangdong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yeoncheongun", "name": "연천군", "dongs": [{"name": "전곡읍", "path": "jeongokeup"}, {"name": "연천읍", "path": "yeoncheoneup"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "gapyeonggun", "name": "가평군", "dongs": [{"name": "가평읍", "path": "gapyeongeup"}, {"name": "청평면", "path": "cheongpyeongmyeon"}, {"name": "조종면", "path": "jojongmyeon"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "yangpyeonggun", "name": "양평군", "dongs": [{"name": "양평읍", "path": "yangpyeongeup"}, {"name": "용문면", "path": "yongmunmyeon"}, {"name": "강상면", "path": "gangsangmyeon"}]},
+
+    # --- [인천시 개편 체제 (2군 9구)] ---
+    {"sido": "incheon", "sido_name": "인천", "path": "jemulbogu", "name": "제물포구", "dongs": [{"name": "신포동", "path": "sinpodong"}, {"name": "신흥동", "path": "sinheungdong"}, {"name": "도원동", "path": "dowondong"}, {"name": "송림동", "path": "songrimdong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "yeongjonggu", "name": "영종구", "dongs": [{"name": "운서동", "path": "unseodong"}, {"name": "영종동", "path": "yeongjongdong"}, {"name": "용유동", "path": "yongyudong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "michuholgu", "name": "미추홀구", "dongs": [{"name": "주안동", "path": "juandong"}, {"name": "용현동", "path": "yonghyeondong"}, {"name": "학익동", "path": "hakikdong"}, {"name": "도화동", "path": "dohwadong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "yeonsugu", "name": "연수구", "dongs": [{"name": "송도동", "path": "songdodong"}, {"name": "연수동", "path": "yeonsudong"}, {"name": "동춘동", "path": "dongchundong"}, {"name": "옥련동", "path": "oknyeondong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "namdonggu", "name": "남동구", "dongs": [{"name": "구월동", "path": "guwoldong"}, {"name": "간석동", "path": "ganseokdong"}, {"name": "만수동", "path": "mansudong"}, {"name": "논현동", "path": "nonhyeondong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "bupyeonggu", "name": "부평구", "dongs": [{"name": "부평동", "path": "bupyeongdong"}, {"name": "산곡동", "path": "sangokdong"}, {"name": "청천동", "path": "cheongcheondong"}, {"name": "삼산동", "path": "samsandong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "gyeyanggu", "name": "계양구", "dongs": [{"name": "계산동", "path": "gyesandong"}, {"name": "효성동", "path": "hyoseongdong"}, {"name": "작전동", "path": "jakjeondong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "seohaegu", "name": "서해구", "dongs": [{"name": "청라동", "path": "cheongradong"}, {"name": "연희동", "path": "yeonhuidong"}, {"name": "가정동", "path": "gajeongdong"}, {"name": "석남동", "path": "seoknamdong"}]},
+    {"sido": "incheon", "sido_name": "인천", "path": "geomdangu", "name": "검단구", "dongs": [{"name": "당하동", "path": "danghadong"}, {"name": "마전동", "path": "majeondong"}, {"name": "원당동", "path": "wondangdong"}, {"name": "아라동", "path": "aradong"}]}
 ]
 
 title_patterns = [
@@ -193,12 +248,15 @@ for reg in all_regions:
     gu_dir = os.path.join("public", sido_path, gu_path)
     os.makedirs(gu_dir, exist_ok=True)
     
-    # 구 페이지 상단에 들어갈 동 배지 목록 생성
     dong_badges_main = "".join([f'<a href="./{d["path"]}/" class="cm2-dong-badge">{d["name"]}</a>' for d in reg["dongs"]])
     dong_badges_section = f'<div style="margin-bottom:12px;font-weight:700;color:var(--p);">📍 방문 가능 행정동 전체 보기</div><div class="cm2-dong-wrap">{dong_badges_main}</div>'
     
+    # 구 페이지용 샵 목록 랜덤 섞기
+    shuffled_shops_gu = shops.copy()
+    random.shuffle(shuffled_shops_gu)
+    
     gu_shops_html = ""
-    for shop in shops:
+    for shop in shuffled_shops_gu:
         gu_shops_html += f"""
         <div class="cm2-shop">
           <div class="cm2-shop-body">
@@ -265,12 +323,15 @@ for reg in all_regions:
         dong_dir = os.path.join(gu_dir, dong['path'])
         os.makedirs(dong_dir, exist_ok=True)
         
-        # 동 페이지 안에서 다른 동들로 이동할 수 있는 배지 생성
         dong_badges_sub = "".join([f'<a href="../{d["path"]}/" class="cm2-dong-badge{" active" if d["path"] == dong["path"] else ""}">{d["name"]}</a>' for d in reg["dongs"]])
         dong_badges_section_sub = f'<div style="margin-bottom:12px;font-weight:700;color:var(--p);">📍 방문 가능 행정동 전체 보기</div><div class="cm2-dong-wrap">{dong_badges_sub}</div>'
         
+        # 동 페이지용 샵 목록 랜덤 섞기
+        shuffled_shops_dong = shops.copy()
+        random.shuffle(shuffled_shops_dong)
+        
         dong_shops_html = ""
-        for shop in shops:
+        for shop in shuffled_shops_dong:
             dong_shops_html += f"""
             <div class="cm2-shop">
               <div class="cm2-shop-body">
@@ -334,4 +395,13 @@ for reg in all_regions:
                 ))
             sitemap_urls.append(shop_url)
 
-print("구 및 동 페이지가 모두 성공적으로 생성되었습니다.")
+sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+sitemap_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+for url in sitemap_urls:
+    sitemap_content += f'  <url>\n    <loc>{url}</loc>\n  </url>\n'
+sitemap_content += '</urlset>'
+
+with open(os.path.join("public", "sitemap.xml"), "w", encoding="utf-8") as f:
+    f.write(sitemap_content)
+
+print(f"모든 지역(총 {len(sitemap_urls)}개 페이지)과 사이트맵이 public 폴더에 성공적으로 생성되었습니다.")
