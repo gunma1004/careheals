@@ -1,9 +1,50 @@
 import os
 import random
 
-# 서울 25개 구, 경기 전체 시·군·구, 인천 2군 9구 통합 행정구역 데이터
+shops = [
+    {
+        "id": "shop1",
+        "name": "한국미인홈케어",
+        "tag": "🔥 한국미인홈케어",
+        "desc": "서울·경기·인천 전지역 신속 방문! 정성 가득한 테라피 & 릴렉싱 프로그램",
+        "price": "100,000원부터~",
+        "phone": "0507-1280-3303"
+    },
+    {
+        "id": "shop2",
+        "name": "오늘밤테라피",
+        "tag": "✨ 오늘밤테라피",
+        "desc": "품격 있는 힐링을 선사하는 최고급 오일 프라이빗 방문 테라피 서비스",
+        "price": "60,000원부터~",
+        "phone": "0507-1280-3223"
+    },
+    {
+        "id": "shop3",
+        "name": "주주테라피",
+        "tag": "💎 주주테라피",
+        "desc": "재방문율 1위! 칼도착 25분 보장, 철저한 위생 관리와 럭셔리 케어",
+        "price": "60,000원부터~",
+        "phone": "0507-1280-3193"
+    },
+    {
+        "id": "shop4",
+        "name": "퀸즈홈테라피",
+        "tag": "🌟 퀸즈홈테라피",
+        "desc": "전문 힐러들의 맞춤형 VIP 피로회복 특화 프로그램 진행 중",
+        "price": "60,000원부터~",
+        "phone": "0507-1280-3334"
+    },
+    {
+        "id": "shop5",
+        "name": "골든테라피",
+        "tag": "👑 골든테라피",
+        "desc": "선입금 없는 100% 후불제! 수도권 전지역 평균 25분 내 실시간 도착",
+        "price": "110,000원부터~",
+        "phone": "0507-1280-3360"
+    }
+]
+
 all_regions = [
-    # --- [서울시 25개 구] ---
     {"sido": "seoul", "sido_name": "서울", "path": "jongrogu", "name": "종로구", "dongs": [{"name": "사직동", "path": "sajikdong"}, {"name": "삼청동", "path": "samcheongdong"}, {"name": "부암동", "path": "buamdong"}, {"name": "평창동", "path": "pyeongchangdong"}, {"name": "무악동", "path": "muakdong"}, {"name": "교남동", "path": "gyonamdong"}, {"name": "가회동", "path": "gahoedong"}, {"name": "종로동", "path": "jongrodong"}, {"name": "이화동", "path": "ihwadong"}, {"name": "창신동", "path": "changsindong"}, {"name": "숭인동", "path": "sungindong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "junggu", "name": "중구", "dongs": [{"name": "소공동", "path": "sogongdong"}, {"name": "회현동", "path": "hoehyeondong"}, {"name": "명동", "path": "myeongdong"}, {"name": "필동", "path": "pildong"}, {"name": "장충동", "path": "jangchungdong"}, {"name": "광희동", "path": "gwanghuidong"}, {"name": "을지로동", "path": "euljirodong"}, {"name": "신당동", "path": "sindangdong"}, {"name": "황학동", "path": "hwanghakdong"}, {"name": "중림동", "path": "jungrimdong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "yongsangu", "name": "용산구", "dongs": [{"name": "후암동", "path": "huamdong"}, {"name": "용산동", "path": "yongsandong"}, {"name": "남영동", "path": "namyeongdong"}, {"name": "원효로동", "path": "wonhyorodong"}, {"name": "효창동", "path": "hyochangdong"}, {"name": "용문동", "path": "yongmundong"}, {"name": "이촌동", "path": "ichondong"}, {"name": "이태원동", "path": "itaewondong"}, {"name": "한남동", "path": "hannamdong"}, {"name": "보광동", "path": "bogwangdong"}]},
@@ -29,275 +70,120 @@ all_regions = [
     {"sido": "seoul", "sido_name": "서울", "path": "gangnamgu", "name": "강남구", "dongs": [{"name": "신사동", "path": "sinsadong"}, {"name": "논현동", "path": "nonhyeondong"}, {"name": "압구정동", "path": "apgujeongdong"}, {"name": "청담동", "path": "cheongdamdong"}, {"name": "삼성동", "path": "samseongdong"}, {"name": "역삼동", "path": "yeoksamdong"}, {"name": "대치동", "path": "daechidong"}, {"name": "도곡동", "path": "dogokdong"}, {"name": "개포동", "path": "gaepodong"}, {"name": "수서동", "path": "suseodong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "songpagu", "name": "송파구", "dongs": [{"name": "풍납동", "path": "pungnapdong"}, {"name": "잠실동", "path": "jamsildong"}, {"name": "삼전동", "path": "samjeondong"}, {"name": "석촌동", "path": "seokchondong"}, {"name": "송파동", "path": "songpadong"}, {"name": "방이동", "path": "bangidong"}, {"name": "문정동", "path": "munjeongdong"}, {"name": "가락동", "path": "ganakdong"}, {"name": "거여동", "path": "geoyeodong"}, {"name": "마천동", "path": "macheondong"}]},
     {"sido": "seoul", "sido_name": "서울", "path": "gangdonggu", "name": "강동구", "dongs": [{"name": "명일동", "path": "myeongildong"}, {"name": "고덕동", "path": "godeokdong"}, {"name": "암사동", "path": "amsadong"}, {"name": "천호동", "path": "cheonhodong"}, {"name": "성내동", "path": "seongnaedong"}, {"name": "둔촌동", "path": "dunchondong"}, {"name": "길동", "path": "gildong"}]},
-
-    # --- [경기도 전체 시·군 및 세부 구 (44개 전 지역)] ---
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_jangan", "name": "수원시 장안구", "dongs": [{"name": "정자동", "path": "jeongjadong"}, {"name": "조원동", "path": "jowondong"}, {"name": "파장동", "path": "pajangdong"}, {"name": "율천동", "path": "yulcheondong"}, {"name": "송림동", "path": "songrimdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_gwonseon", "name": "수원시 권선구", "dongs": [{"name": "권선동", "path": "gwonseondong"}, {"name": "곡반정동", "path": "gokbanjeongdong"}, {"name": "세류동", "path": "seryudong"}, {"name": "탑동", "path": "tapdong"}, {"name": "호매실동", "path": "homaesildong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_paldal", "name": "수원시 팔달구", "dongs": [{"name": "인계동", "path": "ingyedong"}, {"name": "우만동", "path": "umandong"}, {"name": "지동", "path": "jidong"}, {"name": "매산동", "path": "maesandong"}, {"name": "고등동", "path": "godeungdong"}, {"name": "화서동", "path": "hwaseodong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_yeongtong", "name": "수원시 영통구", "dongs": [{"name": "영통동", "path": "yeongtongdong"}, {"name": "매탄동", "path": "maetandong"}, {"name": "원천동", "path": "woncheondong"}, {"name": "광교동", "path": "gwanggyodong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_sujeong", "name": "성남시 수정구", "dongs": [{"name": "태평동", "path": "taepyeongdong"}, {"name": "신흥동", "path": "sinheungdong"}, {"name": "수진동", "path": "sujindong"}, {"name": "산성동", "path": "sanseongdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_jungwon", "name": "성남시 중원구", "dongs": [{"name": "성남동", "path": "seongnamdong"}, {"name": "금광동", "path": "geumgwangdong"}, {"name": "상대원동", "path": "sangdaewondong"}, {"name": "하대원동", "path": "hadaewondong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_bundang", "name": "성남시 분당구", "dongs": [{"name": "서현동", "path": "seohyeondong"}, {"name": "정자동", "path": "jeongjadong"}, {"name": "수내동", "path": "sunaedong"}, {"name": "야탑동", "path": "yatapdong"}, {"name": "이매동", "path": "imaedong"}, {"name": "판교동", "path": "pangyodong"}, {"name": "백현동", "path": "baekhyeondong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "goyang_deogyang", "name": "고양시 덕양구", "dongs": [{"name": "화정동", "path": "hwajeongdong"}, {"name": "행신동", "path": "haengsindong"}, {"name": "삼송동", "path": "samsongdong"}, {"name": "원흥동", "path": "wonheungdong"}, {"name": "지축동", "path": "jichukdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "goyang_ilsandong", "name": "고양시 일산동구", "dongs": [{"name": "백석동", "path": "baekseokdong"}, {"name": "마두동", "path": "madudong"}, {"name": "정발산동", "path": "jeongbalsandong"}, {"name": "식사동", "path": "siksadong"}, {"name": "중산동", "path": "jungsandong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "goyang_ilsanseo", "name": "고양시 일산서구", "dongs": [{"name": "대화동", "path": "daehwadong"}, {"name": "주엽동", "path": "juyeopdong"}, {"name": "탄현동", "path": "tanhyeondong"}, {"name": "일산동", "path": "ilsandong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yongin_cheoin", "name": "용인시 처인구", "dongs": [{"name": "역북동", "path": "yeokbukdong"}, {"name": "김량장동", "path": "kimryangjangdong"}, {"name": "유림동", "path": "yurimdong"}, {"name": "동부동", "path": "dongbudong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yongin_giheung", "name": "용인시 기흥구", "dongs": [{"name": "구갈동", "path": "gugaldong"}, {"name": "동백동", "path": "dongbaekdong"}, {"name": "신갈동", "path": "singaldong"}, {"name": "보정동", "path": "bojeongdong"}, {"name": "마북동", "path": "mabukdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yongin_suji", "name": "용인시 수지구", "dongs": [{"name": "풍덕천동", "path": "pungdeokcheondong"}, {"name": "죽전동", "path": "jukjeondong"}, {"name": "상현동", "path": "sanghyeondong"}, {"name": "성복동", "path": "seongbokdong"}, {"name": "동천동", "path": "dongcheondong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "bucheon_wonmi", "name": "부천시 원미구", "dongs": [{"name": "중동", "path": "jungdong"}, {"name": "상동", "path": "sangdong"}, {"name": "심곡동", "path": "simgokdong"}, {"name": "원미동", "path": "wonmidong"}, {"name": "역곡동", "path": "yeokgokdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "bucheon_sosa", "name": "부천시 소사구", "dongs": [{"name": "소사본동", "path": "sosabondong"}, {"name": "범박동", "path": "beombakdong"}, {"name": "역곡동", "path": "yeokgokdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "bucheon_ojeong", "name": "부천시 오정구", "dongs": [{"name": "오정동", "path": "ojeongdong"}, {"name": "원종동", "path": "wonjongdong"}, {"name": "고강동", "path": "gogangdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "anyang_manan", "name": "안양시 만안구", "dongs": [{"name": "안양동", "path": "anyangdong"}, {"name": "석수동", "path": "seoksudong"}, {"name": "박달동", "path": "bakdaldong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "suwon_paldal", "name": "수원시 팔달구", "dongs": [{"name": "인계동", "path": "ingyedong"}, {"name": "우만동", "path": "umandong"}, {"name": "지동", "path": "jidong"}, {"name": "매산동", "path": "maesandong"}]},
+    {"sido": "gyeonggi", "sido_name": "경기", "path": "seongnam_bundang", "name": "성남시 분당구", "dongs": [{"name": "서현동", "path": "seohyeondong"}, {"name": "정자동", "path": "jeongjadong"}, {"name": "수내동", "path": "sunaedong"}, {"name": "야탑동", "path": "yatapdong"}]},
     {"sido": "gyeonggi", "sido_name": "경기", "path": "anyang_dongan", "name": "안양시 동안구", "dongs": [{"name": "비산동", "path": "bisandong"}, {"name": "평촌동", "path": "pyeongchondong"}, {"name": "호계동", "path": "hogyedong"}, {"name": "관양동", "path": "gwanyangdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "ansan_sangnok", "name": "안산시 상록구", "dongs": [{"name": "본오동", "path": "bonodong"}, {"name": "사동", "path": "sadong"}, {"name": "이동", "path": "idong"}, {"name": "월피동", "path": "wolpidong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "ansan_danwon", "name": "안산시 단원구", "dongs": [{"name": "고잔동", "path": "gojandong"}, {"name": "초지동", "path": "chojidong"}, {"name": "선부동", "path": "seonbudong"}, {"name": "원곡동", "path": "wongokdong"}, {"name": "와동", "path": "wadong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "uijeongbusi", "name": "의정부시", "dongs": [{"name": "의정부동", "path": "uijeongbudong"}, {"name": "신곡동", "path": "singokdong"}, {"name": "가능동", "path": "ganeungdong"}, {"name": "호원동", "path": "howondong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "pyeongtaeksi", "name": "평택시", "dongs": [{"name": "비전동", "path": "bijeondong"}, {"name": "동삭동", "path": "dongsakdong"}, {"name": "고덕동", "path": "godeokdong"}, {"name": "서정동", "path": "seojeongdong"}, {"name": "송탄동", "path": "songtandong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "dongducheonsi", "name": "동두천시", "dongs": [{"name": "생연동", "path": "saengyeondong"}, {"name": "지행동", "path": "jihaengdong"}, {"name": "보산동", "path": "bosandong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gwangmyeongsi", "name": "광명시", "dongs": [{"name": "철산동", "path": "cheolsandong"}, {"name": "하안동", "path": "haandong"}, {"name": "소하동", "path": "sohadong"}, {"name": "광명동", "path": "gwangmyeongdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gwacheonsi", "name": "과천시", "dongs": [{"name": "중앙동", "path": "jungangdong"}, {"name": "별양동", "path": "byeolyangdong"}, {"name": "문원동", "path": "munwondong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gurisi", "name": "구리시", "dongs": [{"name": "인창동", "path": "inchangdong"}, {"name": "수택동", "path": "sutaekdong"}, {"name": "교문동", "path": "gyomundong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "namyangjusi", "name": "남양주시", "dongs": [{"name": "다산동", "path": "dasandong"}, {"name": "별내동", "path": "byeolnaedong"}, {"name": "호평동", "path": "hopyeongdong"}, {"name": "평내동", "path": "pyeongnaedong"}, {"name": "진접읍", "path": "jinjeopeup"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "osansi", "name": "오산시", "dongs": [{"name": "궐동", "path": "gwoldong"}, {"name": "원동", "path": "wondong"}, {"name": "오산동", "path": "osandong"}, {"name": "세교동", "path": "segyodong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "siheungsi", "name": "시흥시", "dongs": [{"name": "배곧동", "path": "baegotdong"}, {"name": "정왕동", "path": "jeongwangdong"}, {"name": "대야동", "path": "daeyadong"}, {"name": "목감동", "path": "mokgamdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gunposi", "name": "군포시", "dongs": [{"name": "산본동", "path": "sanbondong"}, {"name": "금정동", "path": "geumjeongdong"}, {"name": "대야미동", "path": "daeyamidong"}, {"name": "부곡동", "path": "bugokdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "uiwangsi", "name": "의왕시", "dongs": [{"name": "내손동", "path": "naesondong"}, {"name": "오전동", "path": "ojeondong"}, {"name": "포일동", "path": "poildong"}, {"name": "부곡동", "path": "bugokdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "hanamsi", "name": "하남시", "dongs": [{"name": "미사동", "path": "misadong"}, {"name": "풍산동", "path": "pungsandong"}, {"name": "신장동", "path": "sinjangdong"}, {"name": "창우동", "path": "changwudong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "pajusi", "name": "파주시", "dongs": [{"name": "운정동", "path": "unjeongdong"}, {"name": "금촌동", "path": "geumchondong"}, {"name": "교하동", "path": "gyohadong"}, {"name": "문산읍", "path": "munsaneup"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "icheonsi", "name": "이천시", "dongs": [{"name": "증포동", "path": "jeungpodong"}, {"name": "창전동", "path": "changjeondong"}, {"name": "중리동", "path": "junglidong"}, {"name": "부발읍", "path": "bubaleup"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "anseongsi", "name": "안성시", "dongs": [{"name": "공도읍", "path": "gongdoeup"}, {"name": "안성동", "path": "anseongdong"}, {"name": "대덕면", "path": "daedeokmyeon"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gimposi", "name": "김포시", "dongs": [{"name": "구래동", "path": "guraedong"}, {"name": "장기동", "path": "janggidong"}, {"name": "운양동", "path": "unyangdong"}, {"name": "사우동", "path": "saudong"}, {"name": "풍무동", "path": "pungmudong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "hwaseongsi", "name": "화성시", "dongs": [{"name": "동탄동", "path": "dongtandong"}, {"name": "병점동", "path": "byeongjeomdong"}, {"name": "향남읍", "path": "hyangnameup"}, {"name": "남양읍", "path": "namyangeup"}, {"name": "봉담읍", "path": "bongdameup"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gwangjusi", "name": "광주시", "dongs": [{"name": "오포동", "path": "opodong"}, {"name": "경안동", "path": "gyeongandong"}, {"name": "초월읍", "path": "chowoleup"}, {"name": "곤지암읍", "path": "gonjigameup"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yangjusi", "name": "양주시", "dongs": [{"name": "회천동", "path": "hoecheondong"}, {"name": "양주동", "path": "yangjudong"}, {"name": "옥정동", "path": "okjeongdong"}, {"name": "덕정동", "path": "deokjeongdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "pocheonsi", "name": "포천시", "dongs": [{"name": "소흘읍", "path": "soheuleup"}, {"name": "포천동", "path": "pocheondong"}, {"name": "선단동", "path": "seandandong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yeojusi", "name": "여주시", "dongs": [{"name": "오학동", "path": "ohakdong"}, {"name": "여흥동", "path": "yeoheungdong"}, {"name": "중앙동", "path": "jungangdong"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yeoncheongun", "name": "연천군", "dongs": [{"name": "전곡읍", "path": "jeongokeup"}, {"name": "연천읍", "path": "yeoncheoneup"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "gapyeonggun", "name": "가평군", "dongs": [{"name": "가평읍", "path": "gapyeongeup"}, {"name": "청평면", "path": "cheongpyeongmyeon"}, {"name": "조종면", "path": "jojongmyeon"}]},
-    {"sido": "gyeonggi", "sido_name": "경기", "path": "yangpyeonggun", "name": "양평군", "dongs": [{"name": "양평읍", "path": "yangpyeongeup"}, {"name": "용문면", "path": "yongmunmyeon"}, {"name": "강상면", "path": "gangsangmyeon"}]},
-
-    # --- [인천 개편 체제 (2군 9구)] ---
-    {"sido": "incheon", "sido_name": "인천", "path": "jemulbogu", "name": "제물포구", "dongs": [{"name": "신포동", "path": "sinpodong"}, {"name": "신흥동", "path": "sinheungdong"}, {"name": "도원동", "path": "dowondong"}, {"name": "송림동", "path": "songrimdong"}, {"name": "만석동", "path": "manseokdong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "yeongjonggu", "name": "영종구", "dongs": [{"name": "운서동", "path": "unseodong"}, {"name": "영종동", "path": "yeongjongdong"}, {"name": "용유동", "path": "yongyudong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "michuholgu", "name": "미추홀구", "dongs": [{"name": "주안동", "path": "juandong"}, {"name": "용현동", "path": "yonghyeondong"}, {"name": "학익동", "path": "hakikdong"}, {"name": "도화동", "path": "dohwadong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "yeonsugu", "name": "연수구", "dongs": [{"name": "송도동", "path": "songdodong"}, {"name": "연수동", "path": "yeonsudong"}, {"name": "동춘동", "path": "dongchundong"}, {"name": "옥련동", "path": "oknyeondong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "namdonggu", "name": "남동구", "dongs": [{"name": "구월동", "path": "guwoldong"}, {"name": "간석동", "path": "ganseokdong"}, {"name": "만수동", "path": "mansudong"}, {"name": "논현동", "path": "nonhyeondong"}, {"name": "서창동", "path": "seochangdong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "bupyeonggu", "name": "부평구", "dongs": [{"name": "부평동", "path": "bupyeongdong"}, {"name": "산곡동", "path": "sangokdong"}, {"name": "청천동", "path": "cheongcheondong"}, {"name": "삼산동", "path": "samsandong"}, {"name": "부개동", "path": "bugaedong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "gyeyanggu", "name": "계양구", "dongs": [{"name": "계산동", "path": "gyesandong"}, {"name": "효성동", "path": "hyoseongdong"}, {"name": "작전동", "path": "jakjeondong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "seohaegu", "name": "서해구", "dongs": [{"name": "청라동", "path": "cheongradong"}, {"name": "연희동", "path": "yeonhuidong"}, {"name": "가정동", "path": "gajeongdong"}, {"name": "석남동", "path": "seoknamdong"}]},
-    {"sido": "incheon", "sido_name": "인천", "path": "geomdangu", "name": "검단구", "dongs": [{"name": "당하동", "path": "danghadong"}, {"name": "마전동", "path": "majeondong"}, {"name": "원당동", "path": "wondangdong"}, {"name": "아라동", "path": "aradong"}]}
+    {"sido": "incheon", "sido_name": "인천", "path": "yeonsugu", "name": "연수구", "dongs": [{"name": "송도동", "path": "songdodong"}, {"name": "연수동", "path": "yeonsudong"}, {"name": "동춘동", "path": "dongchundong"}]}
 ]
-
-shops = [
-    { 
-        "id": "shop1", "name": "🔥 한국미인테라피", "phone": "0507-1280-3303", 
-        "courses": [
-            ("아로디시 90분", "100,000원"), ("아로디시 120분", "130,000원"),
-            ("VIP스웨디시 60분", "110,000원"), ("VIP스웨디시 90분", "130,000원"), ("VIP스웨디시 120분", "150,000원"),
-            ("한국인스웨디시 60분", "140,000원"), ("한국인스웨디시 90분", "180,000원")
-        ]
-    },
-    { 
-        "id": "shop2", "name": "✨ 오늘밤테라피", "phone": "0507-1280-3223", 
-        "courses": [
-            ("타이코스 60분", "60,000원"), ("타이코스 90분", "80,000원"), ("타이코스 120분", "100,000원"),
-            ("전신아로마 60분", "70,000원"), ("전신아로마 90분", "90,000원"), ("전신아로마 120분", "110,000원"),
-            ("VIP 감성힐링코스 ★추천 60분", "90,000원"), ("VIP 감성힐링코스 ★추천 90분", "110,000원"), ("VIP 감성힐링코스 ★추천 120분", "130,000원"),
-            ("VIP 스페셜코스 ★추천 60분", "100,000원"), ("VIP 스페셜코스 ★추천 90분", "120,000원"), ("VIP 스페셜코스 ★추천 120분", "140,000원"),
-            ("VIP 프리미엄 코스 (타이&아로마&풋) 150분", "160,000원"),
-            ("한국인스웨디시 60분", "140,000원"), ("한국인스웨디시 90분", "180,000원")
-        ]
-    },
-    { 
-        "id": "shop3", "name": "💎 주주테라피", "phone": "0507-1280-3193", 
-        "courses": [
-            ("타이코스 60분", "60,000원"), ("타이코스 90분", "80,000원"), ("타이코스 120분", "100,000원"),
-            ("전신아로마 60분", "70,000원"), ("전신아로마 90분", "90,000원"), ("전신아로마 120분", "110,000원"),
-            ("VIP 감성힐링코스 ★추천 60분", "90,000원"), ("VIP 감성힐링코스 ★추천 90분", "110,000원"), ("VIP 감성힐링코스 ★추천 120분", "130,000원"),
-            ("VIP 스페셜코스 ★추천 60분", "100,000원"), ("VIP 스페셜코스 ★추천 90분", "120,000원"), ("VIP 스페셜코스 ★추천 120분", "140,000원"),
-            ("VIP 프리미엄 코스 (타이&아로마&풋) 150분", "160,000원"),
-            ("한국인스웨디시 60분", "140,000원"), ("한국인스웨디시 90분", "180,000원")
-        ]
-    },
-    { 
-        "id": "shop4", "name": "🌟 퀸즈홈테라피", "phone": "0507-1280-3334", 
-        "courses": [
-            ("건식 힐링 코스 60분", "60,000원"), ("건식 힐링 코스 90분", "80,000원"), ("건식 힐링 코스 120분", "100,000원"),
-            ("아로마 힐링 코스 60분", "70,000원"), ("아로마 힐링 코스 90분", "80,000원"), ("아로마 힐링 코스 120분", "100,000원"),
-            ("힐링스웨디시 코스 60분", "80,000원"), ("힐링스웨디시 코스 90분", "100,000원"), ("힐링스웨디시 코스 120분", "120,000원"),
-            ("VIP스페셜코스 60분", "100,000원"), ("VIP스페셜코스 90분", "120,000원"), ("VIP스페셜코스 120분", "150,000원"),
-            ("한국 관리사 코스 60분", "150,000원"), ("한국 관리사 코스 90분", "180,000원")
-        ]
-    },
-    { 
-        "id": "shop5", "name": "👑 한국골든테라피", "phone": "0507-1280-3360", 
-        "courses": [
-            ("스웨디시 코스 60분", "140,000원"), ("스웨디시 코스 90분", "190,000원"),
-            ("프리미엄 코스 60분", "110,000원"), ("프리미엄 코스 90분", "130,000원"), ("프리미엄 코스 120분", "150,000원")
-        ]
-    }
-]
-
-page_template = """<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{page_title} | 케어힐즈</title>
-<meta name="description" content="{page_desc}">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{page_url}">
-<meta property="og:title" content="{page_title} | 케어힐즈">
-<meta property="og:description" content="{page_desc}">
-<meta property="og:locale" content="ko_KR">
-<style>
-:root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--bg2:#fff;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;--shadow:0 2px 12px rgba(156,56,84,.08);}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{background:var(--bg);color:var(--txt);font-family:'Pretendard',sans-serif;line-height:1.6;padding-bottom:80px}}
-a{{color:inherit;text-decoration:none}}
-.ch-hd{{background:#fff;border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.05)}}
-.ch-hd-inner{{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;padding:0 20px}}
-.ch-logo{{font-size:16px;font-weight:800;color:var(--p)}}
-.ch-bc{{background:#fff;border-bottom:1px solid var(--bdr);padding:10px 20px;font-size:12px;color:var(--muted)}}
-.ch-bc a{{color:var(--p)}}
-.ch-sec{{padding:44px 20px}}
-.ch-sec-inner{{max-width:1100px;margin:0 auto}}
-.ch-sec h2{{font-size:20px;font-weight:800;color:var(--p);margin-bottom:12px}}
-.ch-info-box{{background:var(--p);color:#fff;border-radius:8px;padding:14px 18px;font-size:14px;margin-bottom:20px}}
-.ch-info-box strong{{color:#ffd1dc}}
-.ch-dong-wrap{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}}
-.ch-dong-badge{{background:#fff;border:1.5px solid var(--bdr);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;color:var(--muted);transition:all .15s;display:inline-block}}
-.ch-dong-badge:hover, .ch-dong-badge.active{{background:var(--p);color:#fff;border-color:var(--p)}}
-.ch-shop-list{{display:flex;flex-direction:column;gap:14px}}
-.ch-shop{{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:20px;display:flex;justify-content:space-between;align-items:center;transition:all .15s}}
-.ch-shop:hover{{border-color:var(--p);box-shadow:var(--shadow)}}
-.ch-shop-name a{{font-size:17px;font-weight:800;color:var(--txt);text-decoration:none}}
-.ch-shop-name a:hover{{color:var(--p);text-decoration:underline}}
-.ch-shop-desc{{font-size:13px;color:var(--muted);margin-bottom:10px}}
-.ch-btn-group{{display:flex;gap:8px;align-items:center}}
-.ch-detail-btn{{background:#f3e2e6;color:var(--p);padding:10px 14px;border-radius:6px;font-weight:700;font-size:13px}}
-.ch-call{{background:var(--p);color:#fff;padding:10px 20px;border-radius:6px;font-weight:700;font-size:13px;white-space:nowrap}}
-.ch-ft{{background:#3d232b;color:#d4b5bc;padding:40px 20px;margin-top:40px;text-align:center;font-size:12px}}
-@media(max-width:768px){{.ch-shop{{flex-direction:column;align-items:flex-start;gap:12px}}.ch-btn-group{{width:100%;justify-content:space-between}}.ch-call{{flex:1;text-align:center}}}}
-</style>
-</head>
-<body>
-<header class="ch-hd">
-  <div class="ch-hd-inner">
-    <a href="https://careheals.netlify.app/" class="ch-logo">케어힐즈 (CAREHEALS)</a>
-  </div>
-</header>
-<nav class="ch-bc">
-  <div style="max-width:1100px;margin:0 auto;">
-    <a href="https://careheals.netlify.app/">홈</a> › <a href="https://careheals.netlify.app/{sido_path}/">{sido_name}</a> › {gu_name} {current_dong}
-  </div>
-</nav>
-<section class="ch-sec">
-  <div class="ch-sec-inner">
-    <h2>{page_title}</h2>
-    <div class="ch-info-box"><strong>💰 전 지역 단일 요금:</strong> 선입금 없는 100% 후불제 케어 서비스 제공</div>
-    
-    <div style="margin-bottom:12px;font-weight:700;color:var(--p);">📍 방문 가능 행정동 전체 보기</div>
-    <div class="ch-dong-wrap">
-      {dong_badges}
-    </div>
-
-    <div style="margin-top:30px;margin-bottom:16px;">
-      <h3 style="font-size:18px;font-weight:800;color:var(--p);">✨ 실시간 추천 제휴 업체</h3>
-    </div>
-    <div class="ch-shop-list">
-      {shop_items}
-    </div>
-  </div>
-</section>
-<footer class="ch-ft"><p>© 2026 케어힐즈. All rights reserved.</p></footer>
-</body>
-</html>
-"""
-
-shop_template = """<!doctype html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{shop_title}</title>
-<meta name="description" content="{shop_desc}">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{shop_url}">
-<meta property="og:title" content="{shop_title}">
-<meta property="og:description" content="{shop_desc}">
-<meta property="og:locale" content="ko_KR">
-<style>
-:root{{--p:#9c3854;--a:#e07a93;--bg:#fff8f9;--txt:#2d2024;--muted:#7a656b;--bdr:#ecd2d7;}}
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{background:var(--bg);color:var(--txt);font-family:'Pretendard',sans-serif;line-height:1.6;padding-bottom:80px}}
-a{{color:inherit;text-decoration:none}}
-.ch-hd{{background:#fff;border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}}
-.ch-logo{{font-size:16px;font-weight:800;color:var(--p)}}
-.ch-tel{{background:var(--p);color:#fff;padding:8px 18px;border-radius:6px;font-weight:700;font-size:14px}}
-.ch-sec{{padding:44px 20px}}
-.ch-sec-inner{{max-width:700px;margin:0 auto;background:#fff;border:1.5px solid var(--bdr);border-radius:12px;padding:24px}}
-.ch-title{{font-size:22px;font-weight:800;color:var(--p);margin-bottom:6px}}
-.ch-sub{{font-size:13px;color:var(--muted);margin-bottom:20px}}
-.ch-table{{width:100%;border-collapse:collapse;margin-bottom:24px}}
-.ch-table th, .ch-table td{{padding:12px;border-bottom:1px solid var(--bdr);text-align:left;font-size:14px}}
-.ch-table th{{color:var(--p);font-weight:700;background:#fff5f7}}
-.ch-table td:last-child{{text-align:right;font-weight:800;color:var(--p)}}
-.ch-call-btn{{display:block;background:var(--p);color:#fff;text-align:center;padding:14px;border-radius:8px;font-weight:800;font-size:16px}}
-</style>
-</head>
-<body>
-<header class="ch-hd">
-  <a href="https://careheals.netlify.app/" class="ch-logo">케어힐즈 (CAREHEALS)</a>
-  <a href="tel:{shop_phone}" class="ch-tel">📞 {shop_phone}</a>
-</header>
-<section class="ch-sec">
-  <div class="ch-sec-inner">
-    <h1 class="ch-title">{shop_name}</h1>
-    <p class="ch-sub">📍 서비스 지역: {loc_title} 전 지역 (100% 후불제)</p>
-    
-    <table class="ch-table">
-      <thead>
-        <tr>
-          <th>관리 코스 및 프로그램</th>
-          <th>이용 요금</th>
-        </tr>
-      </thead>
-      <tbody>
-        {course_rows}
-      </tbody>
-    </table>
-
-    <a href="tel:{shop_phone}" class="ch-call-btn">📞 전화로 빠른 예약하기 ({shop_phone})</a>
-  </div>
-</section>
-</body>
-</html>
-"""
 
 title_patterns = [
-    "{loc_title} 스웨디시 마사지 추천 {shop_name} | 케어힐즈",
-    "{loc_title} 타이 마사지 전문 {shop_name} | 케어힐즈",
-    "{loc_title} 아로마 케어 샵 {shop_name} | 케어힐즈",
-    "{loc_title} 감성 홈케어 마사지 {shop_name} | 케어힐즈",
-    "{loc_title} 힐링 테라피 코스 {shop_name} | 케어힐즈"
+    "{loc_title} 출장 전문 스웨디시 마사지 추천 {shop_name} | 케어힐즈",
+    "{loc_title} 타이 출장 테라피 및 마사지 안내 {shop_name} | 케어힐즈",
+    "{loc_title} 아로마 출장 케어 전문 마사지 샵 {shop_name} | 케어힐즈",
+    "{loc_title} 방문 출장 감성 홈케어 마사지 {shop_name} | 케어힐즈",
+    "{loc_title} 힐링 출장 테라피 코스 마사지 {shop_name} | 케어힐즈"
 ]
 
 desc_patterns = [
     "{loc_title} 지역에서 이용 가능한 출장 전문 매장 {shop_name} 제휴 안내. 선입금 없는 후불제 홈케어 마사지 코스 및 가격표 정보.",
-    "{loc_title} 맞춤형 방문 프로그램 운영 중인 {shop_name} 안내. 안전한 후불제 시스템으로 이용하는 전문 마사지 정보.",
+    "{loc_title} 맞춤형 방문 출장 프로그램 운영 중인 {shop_name} 안내. 안전한 후불제 시스템으로 이용하는 전문 마사지 정보.",
     "{loc_title} 전 지역 출장 케어 서비스 {shop_name} 제휴 페이지. 신뢰할 수 있는 후불제 아로마 및 타이 마사지 안내.",
-    "{loc_title} 감성 충전 홈케어 전문 {shop_name} 방문 안내. 부담 없는 후불제로 즐기는 프리미엄 마사지 코스 모음."
+    "{loc_title} 감성 충전 출장 홈케어 전문 {shop_name} 방문 안내. 부담 없는 후불제로 즐기는 프리미엄 마사지 코스 모음."
 ]
 
-sitemap_urls = [
-    "https://careheals.netlify.app/",
-    "https://careheals.netlify.app/seoul/",
-    "https://careheals.netlify.app/gyeonggi/",
-    "https://careheals.netlify.app/incheon/"
-]
+html_template = """<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{shop_title}</title>
+<meta name="description" content="{shop_desc}">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="{shop_url}">
+<style>
+:root{{--p:#1a3a5c;--a:#c9a84c;--bg:#f8f9fb;--bg2:#fff;--txt:#1a2332;--muted:#5a6a7e;--bdr:#dde3ec;--hd:#fff;--ft:#1a2332;--shadow:0 2px 12px rgba(26,58,92,.10);}}
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{background:var(--bg);color:var(--txt);font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif;line-height:1.6}}
+a{{color:inherit;text-decoration:none}}
+.cm2-hd{{background:var(--hd);border-bottom:2px solid var(--p);position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.07)}}
+.cm2-hd-inner{{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px;padding:0 20px}}
+.cm2-logo{{display:flex;align-items:center;gap:10px}}
+.cm2-logo-mark{{width:38px;height:38px;background:var(--p);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:16px}}
+.cm2-logo-text{{font-size:16px;font-weight:800;color:var(--p)}}
+.cm2-logo-sub{{font-size:10px;color:var(--muted);font-weight:400}}
+.cm2-tel{{background:var(--a);color:#fff;padding:8px 18px;border-radius:6px;font-weight:700;font-size:14px}}
+.cm2-bc{{background:#fff;border-bottom:1px solid var(--bdr);padding:10px 20px}}
+.cm2-bc-inner{{max-width:1100px;margin:0 auto;font-size:12px;color:var(--muted)}}
+.cm2-bc-inner a{{color:var(--p)}}
+.cm2-sec{{padding:44px 20px}}
+.cm2-sec-inner{{max-width:1100px;margin:0 auto}}
+.cm2-shop{{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}}
+.cm2-shop-body{{padding:24px}}
+.cm2-shop-hd{{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px}}
+.cm2-shop-name{{font-size:22px;font-weight:800;color:var(--txt)}}
+.cm2-shop-rating{{font-size:12px;background:#fff9ee;border:1px solid #e8c87a;color:#8a6000;padding:3px 10px;border-radius:4px;font-weight:700}}
+.cm2-shop-tags{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}}
+.cm2-tag{{font-size:11px;padding:3px 10px;border-radius:4px;background:#eef3fa;color:var(--p);font-weight:600}}
+.cm2-shop-intro{{font-size:15px;color:var(--muted);line-height:1.6;margin-bottom:16px}}
+.cm2-courses{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}}
+.cm2-course{{background:var(--bg);border:1px solid var(--bdr);border-radius:6px;padding:10px 14px;font-size:13px;flex:1;min-width:140px}}
+.cm2-course strong{{display:block;font-weight:700;color:var(--txt);margin-bottom:2px}}
+.cm2-shop-ft{{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--bdr)}}
+.cm2-price-label{{font-size:12px;color:var(--muted)}}
+.cm2-price-val{{font-size:18px;font-weight:800;color:var(--p)}}
+.cm2-call{{background:var(--a);color:#fff;padding:12px 24px;border-radius:6px;font-weight:700;font-size:14px}}
+.cm2-ft{{background:var(--ft);padding:40px 20px;color:#8fa4be;font-size:12px;line-height:1.8;margin-top:40px}}
+.cm2-ft-brand{{font-size:18px;font-weight:800;color:#fff;margin-bottom:6px}}
+.cm2-ft-brand span{{font-size:11px;color:var(--a);display:block;font-weight:400;letter-spacing:1px;margin-top:2px}}
+@media(max-width:768px){{.cm2-tel{{display:none}}.cm2-shop-ft{{flex-direction:column;gap:12px;align-items:stretch}}.cm2-call{{text-align:center}}}}
+</style>
+</head>
+<body>
 
-global_shop_index = 0
+<header class="cm2-hd">
+  <div class="cm2-hd-inner">
+    <a href="https://careheals.netlify.app/" class="cm2-logo">
+      <div class="cm2-logo-mark">CH</div>
+      <div><div class="cm2-logo-text">케어힐즈</div><div class="cm2-logo-sub">CAREHEALS</div></div>
+    </a>
+    <div class="cm2-hd-right">
+      <a href="tel:{shop_phone}" class="cm2-tel">📞 {shop_phone}</a>
+    </div>
+  </div>
+</header>
+
+<nav class="cm2-bc">
+  <div class="cm2-bc-inner">
+    <a href="https://careheals.netlify.app/">케어힐즈</a> › 
+    <a href="https://careheals.netlify.app/{sido_path}/">{sido_name}</a> › 
+    <a href="https://careheals.netlify.app/{sido_path}/{gu_path}/">{gu_name}</a> › 
+    {current_location}
+  </div>
+</nav>
+
+<section class="cm2-sec">
+  <div class="cm2-sec-inner" style="max-width:780px">
+    <h2 style="font-size:22px;font-weight:800;color:var(--p);margin-bottom:16px;">{page_heading}</h2>
+    {content_body}
+  </div>
+</section>
+
+<footer class="cm2-ft">
+  <div class="cm2-ft-inner">
+    <div class="cm2-ft-brand">케어힐즈<span>CAREHEALS</span></div>
+    <p>수도권 출장 프리미엄 아로마 마사지 업체 지도. 내 위치 근처 방문마사지를 찾아보세요.</p>
+    <p>대표번호: 050-8202-7994 · 운영시간: 매일 19:00 ~ 익일 05:00</p>
+    <p style="margin-top:16px; color:#4a6a8a">© 2026 케어힐즈. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
+"""
+
+sitemap_urls = []
+global_index = 0
 
 for reg in all_regions:
     sido_path = reg["sido"]
@@ -305,135 +191,138 @@ for reg in all_regions:
     gu_path = reg["path"]
     gu_name = reg["name"]
     
-    # 🌟 시도 폴더 아래에 구 폴더가 생성되도록 경로 설정 (예: gyeonggi/suwon_paldal)
-    dir_path = os.path.join(sido_path, gu_path)
-    os.makedirs(dir_path, exist_ok=True)
+    gu_dir = os.path.join("public", sido_path, gu_path)
+    os.makedirs(gu_dir, exist_ok=True)
     
-    shuffled_shops_gu = shops.copy()
-    random.shuffle(shuffled_shops_gu)
-    
-    shop_items_main = ""
-    for shop in shuffled_shops_gu:
-        shop_items_main += f"""
-        <div class="ch-shop">
-          <div>
-            <div class="ch-shop-name"><a href="./{shop['id']}/">{shop["name"]}</a></div>
-            <div class="ch-shop-desc">선입금 없는 100% 후불제 맞춤 방문 힐링 케어</div>
-          </div>
-          <div class="ch-btn-group">
-            <a href="./{shop['id']}/" class="ch-detail-btn">상세보기 및 가격</a>
-            <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
+    gu_shops_html = ""
+    for shop in shops:
+        gu_shops_html += f"""
+        <div class="cm2-shop">
+          <div class="cm2-shop-body">
+            <div class="cm2-shop-hd"><div class="cm2-shop-name"><a href="./{shop['id']}/">{shop["tag"]}</a></div><div class="cm2-shop-rating">★ 4.8</div></div>
+            <p class="cm2-shop-intro">{shop["desc"]}</p>
+            <div class="cm2-shop-ft">
+              <div><span class="cm2-price-label">이용 요금 </span><span class="cm2-price-val">{shop["price"]}</span></div>
+              <a href="./{shop['id']}/" class="cm2-call">상세보기</a>
+            </div>
           </div>
         </div>
         """
-
-    dong_badges_main = "".join([f'<a href="./{d["path"]}/" class="ch-dong-badge">{d["name"]}</a>' for d in reg["dongs"]])
     
-    # 구 페이지 생성
-    main_file = os.path.join(dir_path, "index.html")
     gu_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/"
-    gu_title = f"{gu_name} 스웨디시 마사지 추천｜전국 감성 아로마 케어 총정리"
-    gu_desc = f"{sido_name} {gu_name} 전 지역에서 이용 가능한 전문 홈케어 및 제휴 업체 안내 플랫폼입니다. 신뢰도 높은 후불제 마사지 서비스를 만나보세요."
-    
-    with open(main_file, "w", encoding="utf-8") as f:
-        f.write(page_template.format(
-            page_title=gu_title, page_desc=gu_desc, page_url=gu_url,
-            sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong="",
-            dong_badges=dong_badges_main, shop_items=shop_items_main
+    with open(os.path.join(gu_dir, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html_template.format(
+            shop_title=f"{gu_name} 출장 마사지·홈타이 추천 | 케어힐즈",
+            shop_desc=f"{sido_name} {gu_name} 전 지역 출장 홈케어 및 마사지 제휴 업체 안내.",
+            shop_url=gu_url,
+            shop_phone="050-8202-7994",
+            sido_path=sido_path, sido_name=sido_name, gu_path=gu_path, gu_name=gu_name,
+            current_location=gu_name,
+            page_heading=f"{gu_name} 제휴 업체 안내",
+            content_body=gu_shops_html
         ))
     sitemap_urls.append(gu_url)
 
-    # 구 하위 샵 상세 페이지 생성
     for shop in shops:
-        shop_dir = os.path.join(dir_path, shop['id'])
+        shop_dir = os.path.join(gu_dir, shop['id'])
         os.makedirs(shop_dir, exist_ok=True)
         
-        t_pattern = title_patterns[global_shop_index % len(title_patterns)]
-        d_pattern = desc_patterns[global_shop_index % len(desc_patterns)]
-        global_shop_index += 1
+        t_pattern = title_patterns[global_index % len(title_patterns)]
+        d_pattern = desc_patterns[global_index % len(desc_patterns)]
+        global_index += 1
         
         shop_title_str = t_pattern.format(loc_title=gu_name, shop_name=shop["name"])
         shop_desc_str = d_pattern.format(loc_title=gu_name, shop_name=shop["name"])
-        
-        course_rows = "".join([f"<tr><td>{c}</td><td>{p}</td></tr>\n" for c, p in shop["courses"]])
         shop_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{shop['id']}/"
-            
+        
+        single_shop_html = f"""
+        <div class="cm2-shop">
+          <div class="cm2-shop-body">
+            <div class="cm2-shop-hd"><div class="cm2-shop-name">{shop["tag"]}</div><div class="cm2-shop-rating">★ 4.8 (128건)</div></div>
+            <p class="cm2-shop-intro">{shop["desc"]}</p>
+            <div class="cm2-shop-ft">
+              <div><span class="cm2-price-label">이용 요금 </span><span class="cm2-price-val">{shop["price"]}</span></div>
+              <a href="tel:{shop["phone"]}" class="cm2-call">📞 {shop["phone"]} 예약 문의</a>
+            </div>
+          </div>
+        </div>
+        """
+        
         with open(os.path.join(shop_dir, "index.html"), "w", encoding="utf-8") as f:
-            f.write(shop_template.format(
-                shop_title=shop_title_str, shop_desc=shop_desc_str,
-                loc_title=gu_name, shop_name=shop["name"], shop_phone=shop["phone"],
-                course_rows=course_rows, shop_url=shop_url
+            f.write(html_template.format(
+                shop_title=shop_title_str, shop_desc=shop_desc_str, shop_url=shop_url,
+                shop_phone=shop["phone"], sido_path=sido_path, sido_name=sido_name,
+                gu_path=gu_path, gu_name=gu_name, current_location=gu_name,
+                page_heading=shop["name"], content_body=single_shop_html
             ))
         sitemap_urls.append(shop_url)
 
-    # 동별 페이지 및 동 하위 샵 상세 페이지 생성
     for dong in reg["dongs"]:
-        dong_dir = os.path.join(dir_path, dong['path'])
+        dong_dir = os.path.join(gu_dir, dong['path'])
         os.makedirs(dong_dir, exist_ok=True)
         
-        dong_badges_sub = "".join([f'<a href="../{d["path"]}/" class="ch-dong-badge{" active" if d["path"] == dong["path"] else ""}">{d["name"]}</a>' for d in reg["dongs"]])
-        
-        shuffled_shops_dong = shops.copy()
-        random.shuffle(shuffled_shops_dong)
-        
-        shop_items_sub = ""
-        for shop in shuffled_shops_dong:
-            shop_items_sub += f"""
-            <div class="ch-shop">
-              <div>
-                <div class="ch-shop-name"><a href="./{shop['id']}/">{shop["name"]}</a></div>
-                <div class="ch-shop-desc">선입금 없는 100% 후불제 맞춤 방문 힐링 케어</div>
-              </div>
-              <div class="ch-btn-group">
-                <a href="./{shop['id']}/" class="ch-detail-btn">상세보기 및 가격</a>
-                <a href="tel:{shop["phone"]}" class="ch-call">📞 예약 전화</a>
+        dong_shops_html = ""
+        for shop in shops:
+            dong_shops_html += f"""
+            <div class="cm2-shop">
+              <div class="cm2-shop-body">
+                <div class="cm2-shop-hd"><div class="cm2-shop-name"><a href="./{shop['id']}/">{shop["tag"]}</a></div><div class="cm2-shop-rating">★ 4.8</div></div>
+                <p class="cm2-shop-intro">{shop["desc"]}</p>
+                <div class="cm2-shop-ft">
+                  <div><span class="cm2-price-label">이용 요금 </span><span class="cm2-price-val">{shop["price"]}</span></div>
+                  <a href="./{shop['id']}/" class="cm2-call">상세보기</a>
+                </div>
               </div>
             </div>
             """
             
         dong_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/"
-        dong_title = f"{gu_name} {dong['name']} 스웨디시 마사지 추천｜전국 감성 아로마 케어 총정리"
-        dong_desc = f"{sido_name} {gu_name} {dong['name']} 지역 맞춤형 방문 홈케어 및 제휴 안내 페이지입니다. 안전한 후불제 마사지 서비스를 제공합니다."
-        
         with open(os.path.join(dong_dir, "index.html"), "w", encoding="utf-8") as f:
-            f.write(page_template.format(
-                page_title=dong_title, page_desc=dong_desc, page_url=dong_url,
-                sido_path=sido_path, sido_name=sido_name, gu_name=gu_name, current_dong=f"› {dong['name']}",
-                dong_badges=dong_badges_sub, shop_items=shop_items_sub
+            f.write(html_template.format(
+                shop_title=f"{gu_name} {dong['name']} 출장 마사지·홈타이 추천 | 케어힐즈",
+                shop_desc=f"{sido_name} {gu_name} {dong['name']} 지역 맞춤형 방문 홈케어 및 제휴 안내.",
+                shop_url=dong_url,
+                shop_phone="050-8202-7994",
+                sido_path=sido_path, sido_name=sido_name, gu_path=gu_path, gu_name=gu_name,
+                current_location=dong['name'],
+                page_heading=f"{gu_name} {dong['name']} 제휴 업체 안내",
+                content_body=dong_shops_html
             ))
         sitemap_urls.append(dong_url)
 
-        loc_dong_title = f"{gu_name} {dong['name']}"
         for shop in shops:
-            dong_shop_dir = os.path.join(dong_dir, shop['id'])
-            os.makedirs(dong_shop_dir, exist_ok=True)
+            shop_dir = os.path.join(dong_dir, shop['id'])
+            os.makedirs(shop_dir, exist_ok=True)
             
-            t_pattern = title_patterns[global_shop_index % len(title_patterns)]
-            d_pattern = desc_patterns[global_shop_index % len(desc_patterns)]
-            global_shop_index += 1
+            t_pattern = title_patterns[global_index % len(title_patterns)]
+            d_pattern = desc_patterns[global_index % len(desc_patterns)]
+            global_index += 1
             
-            shop_title_str = t_pattern.format(loc_title=loc_dong_title, shop_name=shop["name"])
-            shop_desc_str = d_pattern.format(loc_title=loc_dong_title, shop_name=shop["name"])
+            loc_title = f"{gu_name} {dong['name']}"
+            shop_title_str = t_pattern.format(loc_title=loc_title, shop_name=shop["name"])
+            shop_desc_str = d_pattern.format(loc_title=loc_title, shop_name=shop["name"])
+            shop_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/{shop['id']}/"
             
-            course_rows = "".join([f"<tr><td>{c}</td><td>{p}</td></tr>\n" for c, p in shop["courses"]])
-            dong_shop_url = f"https://careheals.netlify.app/{sido_path}/{gu_path}/{dong['path']}/{shop['id']}/"
-                
-            with open(os.path.join(dong_shop_dir, "index.html"), "w", encoding="utf-8") as f:
-                f.write(shop_template.format(
-                    shop_title=shop_title_str, shop_desc=shop_desc_str,
-                    loc_title=loc_dong_title, shop_name=shop["name"], shop_phone=shop["phone"],
-                    course_rows=course_rows, shop_url=dong_shop_url
+            single_shop_html = f"""
+            <div class="cm2-shop">
+              <div class="cm2-shop-body">
+                <div class="cm2-shop-hd"><div class="cm2-shop-name">{shop["tag"]}</div><div class="cm2-shop-rating">★ 4.8 (128건)</div></div>
+                <p class="cm2-shop-intro">{shop["desc"]}</p>
+                <div class="cm2-shop-ft">
+                  <div><span class="cm2-price-label">이용 요금 </span><span class="cm2-price-val">{shop["price"]}</span></div>
+                  <a href="tel:{shop["phone"]}" class="cm2-call">📞 {shop["phone"]} 예약 문의</a>
+                </div>
+              </div>
+            </div>
+            """
+            
+            with open(os.path.join(shop_dir, "index.html"), "w", encoding="utf-8") as f:
+                f.write(html_template.format(
+                    shop_title=shop_title_str, shop_desc=shop_desc_str, shop_url=shop_url,
+                    shop_phone=shop["phone"], sido_path=sido_path, sido_name=sido_name,
+                    gu_path=gu_path, gu_name=gu_name, current_location=dong['name'],
+                    page_heading=shop["name"], content_body=single_shop_html
                 ))
-            sitemap_urls.append(dong_shop_url)
+            sitemap_urls.append(shop_url)
 
-# sitemap.xml 생성
-sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
-sitemap_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-for url in sitemap_urls:
-    sitemap_content += f'  <url>\n    <loc>{url}</loc>\n  </url>\n'
-sitemap_content += '</urlset>'
-
-with open("sitemap.xml", "w", encoding="utf-8") as f:
-    f.write(sitemap_content)
-
-print(f"✨ 경기도 44개 전 지역을 포함하여 서울, 경기, 인천의 모든 구·동·샵 페이지 및 사이트맵이 완벽하게 생성되었습니다!")
+print("성공적으로 페이지가 생성되었습니다.")
